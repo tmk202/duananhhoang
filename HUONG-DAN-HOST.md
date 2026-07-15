@@ -26,13 +26,15 @@ Trên GitHub.com: **New repository** (ví dụ `vex-filter`), **không** tick RE
 
 ```powershell
 git branch -M main
-git remote add origin https://github.com/TEN-CUA-BAN/vex-filter.git
+git remote add origin https://github.com/tmk202/duananhhoang.git
 git push -u origin main
 ```
 
+> Repo đã setup: **https://github.com/tmk202/duananhhoang**
+
 ## Bước 2 — Bật GitHub Pages
 
-Repo → **Settings** → **Pages**:
+Mở: https://github.com/tmk202/duananhhoang/settings/pages
 
 - Source: **Deploy from a branch**
 - Branch: **main** / folder **/** (root)
@@ -40,11 +42,11 @@ Repo → **Settings** → **Pages**:
 
 Vài phút sau mở:
 
-`https://TEN-CUA-BAN.github.io/vex-filter/`
-
-Admin:
-
-`https://TEN-CUA-BAN.github.io/vex-filter/admin.html`
+| Trang | URL |
+|-------|-----|
+| Landing | https://tmk202.github.io/duananhhoang/ |
+| Shop | https://tmk202.github.io/duananhhoang/san-pham.html |
+| Admin | https://tmk202.github.io/duananhhoang/admin.html |
 
 ## Bước 3 — Tạo Personal Access Token
 
