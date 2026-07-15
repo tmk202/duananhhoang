@@ -1,0 +1,26 @@
+[
+  {
+    "id": "vinfast",
+    "slug": "vinfast",
+    "name": "Lọc gió VinFast",
+    "description": "Lọc gió điều hòa than hoạt tính dành riêng cho xe điện VinFast",
+    "icon": "⚡",
+    "order": 1
+  },
+  {
+    "id": "combo",
+    "slug": "combo",
+    "name": "Combo tiết kiệm",
+    "description": "Mua 2 tặng 1 hoặc combo thay định kỳ – tiết kiệm hơn cho gia đình",
+    "icon": "🎁",
+    "order": 2
+  },
+  {
+    "id": "phu-kien",
+    "slug": "phu-kien",
+    "name": "Phụ kiện & hướng dẫn",
+    "description": "Tài liệu lắp đặt, video hướng dẫn thay lọc tại nhà",
+    "icon": "🔧",
+    "order": 3
+  }
+]

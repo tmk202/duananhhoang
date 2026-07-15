@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | VEX Filter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+  <!-- LOGIN -->
+  <div class="login-wrap" id="loginScreen">
+    <div class="login-card">
+      <div class="logo" style="margin-bottom:1rem">
+        <div class="logo-mark">VEX</div>
+        <div>Admin<span>Quản lý sản phẩm</span></div>
+      </div>
+      <h1>Đăng nhập Admin</h1>
+      <p>PIN mặc định: <code>vex2026</code> (đổi trong <code>data/site.json</code> → adminPin).</p>
+      <form id="loginForm">
+        <div class="field" style="margin-bottom:1rem">
+          <label for="loginPin">Mã PIN</label>
+          <input id="loginPin" type="password" autocomplete="current-password" placeholder="Nhập PIN" required>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Vào trang quản trị</button>
+      </form>
+      <p class="hint" style="margin-top:1rem;font-size:0.85rem;color:var(--muted)">
+        <strong>Thêm SP online (free mãi):</strong> vào Cài đặt → dán GitHub Token.<br>
+        <strong>Hoặc local:</strong> <code>python admin-server.py</code>
+      </p>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="admin-shell" id="adminApp" style="display:none">
+    <aside class="admin-side">
+      <a class="logo" href="index.html">
+        <div class="logo-mark">VEX</div>
+        <div>VEX Admin<span>Product Manager</span></div>
+      </a>
+      <nav>
+        <button type="button" class="nav-item active" data-panel="products">📦 Sản phẩm</button>
+        <button type="button" class="nav-item" data-panel="form" id="navForm">➕ Thêm / Sửa</button>
+        <button type="button" class="nav-item" data-panel="categories">🏷️ Danh mục</button>
+        <button type="button" class="nav-item" data-panel="settings">⚙️ Cài đặt</button>
+        <a href="san-pham.html" target="_blank">👁 Xem shop</a>
+        <a href="index.html" target="_blank">🏠 Landing</a>
+        <button type="button" class="nav-item" id="btnLogout">🚪 Đăng xuất</button>
+      </nav>
+      <div class="side-meta" id="modeBadge">Đang kiểm tra chế độ…</div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-top">
+        <h1 id="pageTitle">Sản phẩm</h1>
+        <div class="admin-toolbar" style="margin:0">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnExport">⬇ Xuất products.json</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnNewProduct">+ Thêm sản phẩm</button>
+        </div>
+      </div>
+
+      <!-- PRODUCTS LIST -->
+      <section class="admin-panel active" id="panel-products">
+        <div class="admin-card">
+          <h2>Danh sách sản phẩm (<span id="productCount"></span>)</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Ảnh</th>
+                  <th>Tên / SKU</th>
+                  <th>Xe / DM</th>
+                  <th>Giá</th>
+                  <th>Kho</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody">
+                <tr><td colspan="6">Đang tải…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCT FORM -->
+      <section class="admin-panel" id="panel-form">
+        <div class="admin-card">
+          <h2>Thông tin sản phẩm</h2>
+          <form id="productForm">
+            <input type="hidden" id="fId">
+            <div class="form-grid">
+              <div class="field full">
+                <label>Ảnh chính *</label>
+                <div class="image-uploader">
+                  <div class="image-preview" id="imagePreview"><span>Chưa có ảnh</span></div>
+                  <div>
+                    <div class="dropzone" id="dropzone">
+                      <strong>Kéo thả ảnh vào đây</strong>
+                      <span>hoặc bấm để chọn (JPG/PNG/WebP, max 8MB)</span>
+                    </div>
+                    <input type="file" id="fImageFile" accept="image/*" hidden>
+                    <div class="field" style="margin-top:0.65rem">
+                      <label for="fImagePath">Đường dẫn ảnh (tự điền sau upload)</label>
+                      <input id="fImagePath" type="text" placeholder="public/images/uploads/...">
+                      <div class="hint">Có thể dán path ảnh có sẵn trong repo.</div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnAddGallery" style="margin-top:0.5rem">+ Thêm ảnh gallery</button>
+                    <div class="gallery-list" id="galleryList"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field full">
+                <label for="fName">Tên đầy đủ *</label>
+                <input id="fName" required placeholder="Lọc gió điều hòa VEX – VinFast VF3">
+              </div>
+              <div class="field">
+                <label for="fShortName">Tên ngắn (hiện card)</label>
+                <input id="fShortName" placeholder="VEX Filter VF3">
+              </div>
+              <div class="field">
+                <label for="fSlug">Slug URL</label>
+                <input id="fSlug" placeholder="loc-gio-vinfast-vf3">
+              </div>
+              <div class="field">
+                <label for="fSku">SKU *</label>
+                <input id="fSku" required placeholder="VEX-VF3">
+              </div>
+              <div class="field">
+                <label for="fCategory">Danh mục</label>
+                <select id="fCategory"></select>
+              </div>
+              <div class="field">
+                <label for="fVehicle">Dòng xe</label>
+                <input id="fVehicle" placeholder="VF5 / VF8 / VF9">
+              </div>
+              <div class="field">
+                <label for="fPrice">Giá bán (₫) *</label>
+                <input id="fPrice" type="number" min="0" step="1000" required placeholder="199000">
+              </div>
+              <div class="field">
+                <label for="fCompareAt">Giá gạch (₫)</label>
+                <input id="fCompareAt" type="number" min="0" step="1000" placeholder="270000">
+              </div>
+              <div class="field">
+                <label for="fBadge">Badge</label>
+                <input id="fBadge" placeholder="Bán chạy / Mới / Tiết kiệm">
+              </div>
+              <div class="field">
+                <label for="fInStock" style="display:flex;align-items:center;gap:0.5rem;margin-top:1.6rem">
+                  <input id="fInStock" type="checkbox" checked style="width:auto">
+                  Còn hàng
+                </label>
+              </div>
+              <div class="field full">
+                <label for="fSummary">Tóm tắt ngắn</label>
+                <textarea id="fSummary" rows="2" placeholder="1–2 câu hiện trên card sản phẩm"></textarea>
+              </div>
+              <div class="field full">
+                <label for="fDescription">Mô tả chi tiết</label>
+                <textarea id="fDescription" rows="4" placeholder="Mô tả dài cho trang chi tiết"></textarea>
+              </div>
+              <div class="field full">
+                <label for="fFeatures">Tính năng (mỗi dòng 1 ý)</label>
+                <textarea id="fFeatures" rows="5"></textarea>
+              </div>
+              <div class="field full">
+                <label for="fSpecs">Thông số (dạng: Tên: Giá trị — mỗi dòng)</label>
+                <textarea id="fSpecs" rows="5"></textarea>
+              </div>
+              <div class="field full">
+                <label for="fTags">Tags (cách nhau bằng dấu phẩy)</label>
+                <input id="fTags" placeholder="vf5, vinfast, pm25">
+              </div>
+            </div>
+            <div class="admin-toolbar" style="margin-top:1.25rem">
+              <button type="submit" class="btn btn-primary">💾 Lưu sản phẩm</button>
+              <button type="button" class="btn btn-secondary" id="btnCancelForm">Hủy</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- CATEGORIES -->
+      <section class="admin-panel" id="panel-categories">
+        <div class="admin-card">
+          <h2>Thêm danh mục</h2>
+          <form id="categoryForm" class="form-grid">
+            <div class="field">
+              <label for="cName">Tên danh mục</label>
+              <input id="cName" required placeholder="Lọc gió VinFast">
+            </div>
+            <div class="field">
+              <label for="cId">ID (để trống = tự tạo)</label>
+              <input id="cId" placeholder="vinfast">
+            </div>
+            <div class="field">
+              <label for="cIcon">Icon emoji</label>
+              <input id="cIcon" placeholder="⚡" maxlength="4">
+            </div>
+            <div class="field full">
+              <label for="cDesc">Mô tả</label>
+              <input id="cDesc" placeholder="Mô tả ngắn">
+            </div>
+            <div class="full">
+              <button type="submit" class="btn btn-primary">Thêm danh mục</button>
+            </div>
+          </form>
+        </div>
+        <div id="categoryList"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="admin-panel" id="panel-settings">
+        <div class="admin-card" style="border:2px solid #0b7dff">
+          <h2>🌐 GitHub — host free mãi mãi + thêm sản phẩm online</h2>
+          <p style="margin:0 0 1rem;color:var(--muted);font-size:0.95rem">
+            GitHub Pages chỉ là file tĩnh, <strong>không tự ghi</strong>. Admin dùng <strong>GitHub API</strong> để commit
+            <code>products.json</code> + ảnh vào repo → Pages tự deploy. <strong>Miễn phí, không hết hạn</strong> (trong gói free GitHub).
+          </p>
+          <p id="ghStatus" style="margin:0 0 1rem;font-size:0.9rem"></p>
+          <form id="githubForm" class="form-grid">
+            <div class="field">
+              <label for="ghOwner">GitHub username / org *</label>
+              <input id="ghOwner" placeholder="ten-cua-ban" required>
+            </div>
+            <div class="field">
+              <label for="ghRepo">Tên repo *</label>
+              <input id="ghRepo" placeholder="duan-anhoang" required>
+            </div>
+            <div class="field">
+              <label for="ghBranch">Branch</label>
+              <input id="ghBranch" placeholder="main" value="main">
+            </div>
+            <div class="field">
+              <label for="ghToken">Personal Access Token *</label>
+              <input id="ghToken" type="password" autocomplete="off" placeholder="ghp_xxxxxxxxxxxx" required>
+              <div class="hint">
+                Tạo tại GitHub → Settings → Developer settings → Personal access tokens.<br>
+                Cần quyền <strong>Contents: Read and write</strong> (fine-grained) hoặc scope <code>repo</code> (classic).<br>
+                <strong>Token chỉ lưu trên trình duyệt này</strong> (localStorage), không ghi vào repo.
+              </div>
+            </div>
+            <div class="full admin-toolbar" style="margin:0">
+              <button type="submit" class="btn btn-primary">💾 Lưu & bật GitHub</button>
+              <button type="button" class="btn btn-secondary" id="btnTestGithub">Test kết nối</button>
+              <button type="button" class="btn btn-danger btn-sm" id="btnClearGithub">Xóa token máy này</button>
+            </div>
+          </form>
+          <ol style="margin:1.25rem 0 0;padding-left:1.2rem;color:var(--muted);line-height:1.75;font-size:0.92rem">
+            <li>Push code lên GitHub, bật <strong>Settings → Pages</strong> (branch main / root)</li>
+            <li>Tạo token → dán vào form trên → <strong>Lưu & bật GitHub</strong></li>
+            <li>Vào <strong>Thêm sản phẩm</strong> → upload ảnh → Lưu</li>
+            <li>Đợi 1–2 phút, F5 trang shop — SP mới hiện</li>
+          </ol>
+        </div>
+
+        <div class="admin-card">
+          <h2>Liên hệ & PIN admin</h2>
+          <form id="siteForm" class="form-grid">
+            <div class="field">
+              <label for="sPhone">Hotline</label>
+              <input id="sPhone" placeholder="0900 000 000">
+            </div>
+            <div class="field">
+              <label for="sZalo">Link Zalo</label>
+              <input id="sZalo" placeholder="https://zalo.me/...">
+            </div>
+            <div class="field">
+              <label for="sShopee">Link Shopee</label>
+              <input id="sShopee" placeholder="https://shopee.vn/...">
+            </div>
+            <div class="field">
+              <label for="sEmail">Email</label>
+              <input id="sEmail" type="email">
+            </div>
+            <div class="field full">
+              <label for="sPin">PIN admin</label>
+              <input id="sPin" type="text" autocomplete="off">
+            </div>
+            <div class="full">
+              <button type="submit" class="btn btn-primary">Lưu cài đặt site</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h2>So sánh chỗ host (free / “mãi”)</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nơi</th>
+                  <th>Chi phí</th>
+                  <th>Thêm SP online?</th>
+                  <th>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>GitHub Pages + Token</strong></td>
+                  <td>Free</td>
+                  <td>✅ (cách này)</td>
+                  <td>Ổn định lâu dài, phù hợp shop catalog tĩnh</td>
+                </tr>
+                <tr>
+                  <td>Cloudflare Pages</td>
+                  <td>Free</td>
+                  <td>Cần Worker/D1 thêm</td>
+                  <td>Rất nhanh, free generous</td>
+                </tr>
+                <tr>
+                  <td>Netlify / Vercel</td>
+                  <td>Free tier</td>
+                  <td>Cần serverless + DB</td>
+                  <td>Có giới hạn build/bandwidth</td>
+                </tr>
+                <tr>
+                  <td>Supabase + static</td>
+                  <td>Free tier</td>
+                  <td>✅ DB thật</td>
+                  <td>Tốt nếu sau này cần user/order</td>
+                </tr>
+                <tr>
+                  <td>VPS (Contabo…)</td>
+                  <td>~$4–6/tháng</td>
+                  <td>✅ full</td>
+                  <td>Tự cài server, không “free”</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:0.75rem 0 0;color:var(--muted);font-size:0.9rem">
+            Với VEX Filter hiện tại: <strong>GitHub Pages + Admin GitHub API</strong> là đủ, free, và “mãi” theo chính sách free của GitHub.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="js/admin.js"></script>
+  <script>
+    // product count badge
+    const obs = new MutationObserver(() => {
+      const rows = document.querySelectorAll("#productTableBody tr[data-id]");
+      const el = document.getElementById("productCount");
+      if (el) el.textContent = rows.length || "0";
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+      const tbody = document.getElementById("productTableBody");
+      if (tbody) obs.observe(tbody, { childList: true, subtree: true });
+    });
+  </script>
+</body>
+</html>

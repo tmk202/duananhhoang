@@ -1,0 +1,247 @@
+[
+  {
+    "id": "vex-vf3",
+    "slug": "loc-gio-vinfast-vf3",
+    "sku": "VEX-VF3",
+    "name": "Lọc gió điều hòa VEX – VinFast VF3",
+    "shortName": "VEX Filter VF3",
+    "category": "vinfast",
+    "vehicle": "VF3",
+    "price": 189000,
+    "compareAt": 250000,
+    "badge": "Bán chạy",
+    "inStock": true,
+    "image": "public/images/sku/vf3.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/vf3.png",
+      "public/images/thong-so.jpg"
+    ],
+    "summary": "Lọc than hoạt tính 3 lớp, vừa khít VF3. Lọc PM2.5, khử mùi, bảo vệ sức khỏe cả nhà trên mọi hành trình.",
+    "description": "VEX Filter dành riêng cho VinFast VF3 – kết hợp giấy lọc độ cao và than hoạt tính gáo dừa cao cấp. Lọc bụi thô, bụi mịn PM2.5, hấp thụ mùi hôi, VOC và hỗ trợ giảm vi khuẩn, phấn hoa. Độ bền khuyến nghị ~15.000 km. Lắp vừa, thay dễ tại nhà.",
+    "features": [
+      "Lọc bụi mịn PM2.5",
+      "Than hoạt tính gáo dừa khử mùi",
+      "3 lớp tiêu chuẩn",
+      "Lắp vừa khung VF3",
+      "Độ bền ~15.000 km",
+      "Không giảm lưu lượng gió"
+    ],
+    "specs": {
+      "Lớp lọc": "3 lớp + than hoạt tính",
+      "Vật liệu": "Giấy lọc cao cấp + than gáo dừa",
+      "Tương thích": "VinFast VF3",
+      "Tuổi thọ": "~15.000 km / 6–12 tháng",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "vf3",
+      "vinfast",
+      "xe-dien",
+      "pm25"
+    ]
+  },
+  {
+    "id": "vex-vf5",
+    "slug": "loc-gio-vinfast-vf5",
+    "sku": "VEX-VF5",
+    "name": "Lọc gió điều hòa VEX – VinFast VF5",
+    "shortName": "VEX Filter VF5",
+    "category": "vinfast",
+    "vehicle": "VF5",
+    "price": 199000,
+    "compareAt": 270000,
+    "badge": "Phổ biến",
+    "inStock": true,
+    "image": "public/images/sku/vf5.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/vf5.png",
+      "public/images/cau-tao.jpg"
+    ],
+    "summary": "Dành cho VF5 – không khí trong lành mỗi ngày, đặc biệt phù hợp gia đình có trẻ nhỏ và người lớn tuổi.",
+    "description": "Lọc gió VEX cho VinFast VF5 giúp loại bỏ bụi, mùi xăng xe, khói và các tác nhân dị ứng trong cabin. Thiết kế vừa khít, luồng gió mạnh mẽ, bảo vệ hệ thống điều hòa lâu dài.",
+    "features": [
+      "Lọc PM2.5 & bụi thô",
+      "Khử mùi hiệu quả",
+      "Hỗ trợ giảm dị ứng",
+      "Khung chắc, viền kín",
+      "Dễ tự lắp tại nhà",
+      "Bảo vệ dàn lạnh"
+    ],
+    "specs": {
+      "Lớp lọc": "3 lớp + than hoạt tính",
+      "Vật liệu": "Giấy lọc cao cấp + than gáo dừa",
+      "Tương thích": "VinFast VF5",
+      "Tuổi thọ": "~15.000 km / 6–12 tháng",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "vf5",
+      "vinfast",
+      "gia-dinh"
+    ]
+  },
+  {
+    "id": "vex-vf6-vf7",
+    "slug": "loc-gio-vinfast-vf6-vf7",
+    "sku": "VEX-VF6-7",
+    "name": "Lọc gió điều hòa VEX – VinFast VF6 / VF7",
+    "shortName": "VEX Filter VF6/VF7",
+    "category": "vinfast",
+    "vehicle": "VF6 / VF7",
+    "price": 219000,
+    "compareAt": 290000,
+    "badge": "",
+    "inStock": true,
+    "image": "public/images/sku/vf6-vf7.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/vf6-vf7.png",
+      "public/images/so-sanh.jpg"
+    ],
+    "summary": "Một lọc dùng chung dòng VF6 & VF7 – chuẩn kích thước, hiệu suất lọc cao cho xe crossover điện.",
+    "description": "SKU tối ưu cho chủ xe VF6 và VF7. Lớp than hoạt tính hấp thụ formaldehyde, benzene, mùi khó chịu; lớp lọc giữ hạt siêu mịn. Trải nghiệm cabin sạch, mát, yên tâm trên đường dài.",
+    "features": [
+      "Tương thích VF6 & VF7",
+      "Than hoạt tính cao cấp",
+      "Lọc VOC & khí độc hại",
+      "Lưu lượng gió nguyên bản",
+      "Viền lọc khít chuẩn",
+      "Độ bền vượt trội"
+    ],
+    "specs": {
+      "Lớp lọc": "3 lớp + than hoạt tính",
+      "Vật liệu": "Giấy lọc cao cấp + than gáo dừa",
+      "Tương thích": "VinFast VF6, VF7",
+      "Tuổi thọ": "~15.000 km / 6–12 tháng",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "vf6",
+      "vf7",
+      "vinfast"
+    ]
+  },
+  {
+    "id": "vex-vf8-vf9",
+    "slug": "loc-gio-vinfast-vf8-vf9",
+    "sku": "VEX-VF8-9",
+    "name": "Lọc gió điều hòa VEX – VinFast VF8 / VF9",
+    "shortName": "VEX Filter VF8/VF9",
+    "category": "vinfast",
+    "vehicle": "VF8 / VF9",
+    "price": 249000,
+    "compareAt": 320000,
+    "badge": "Cao cấp",
+    "inStock": true,
+    "image": "public/images/sku/vf8-vf9.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/vf8-vf9.png",
+      "public/images/cover.png"
+    ],
+    "summary": "Cho dòng SUV VF8 & VF9 – không gian cabin rộng, cần lọc mạnh và khử mùi bền bỉ.",
+    "description": "VEX Filter cho VF8/VF9 mang lại bầu không khí trong lành trên hành trình dài. Phù hợp chủ xe ưu tiên sức khỏe, hay chở người thân lớn tuổi hoặc trẻ em.",
+    "features": [
+      "Chuẩn VF8 & VF9",
+      "Lọc bụi mịn toàn diện",
+      "Khử mùi cabin mạnh",
+      "An toàn cho sức khỏe",
+      "Chất lượng cao cấp",
+      "Lắp đặt dễ dàng"
+    ],
+    "specs": {
+      "Lớp lọc": "3 lớp + than hoạt tính",
+      "Vật liệu": "Giấy lọc cao cấp + than gáo dừa",
+      "Tương thích": "VinFast VF8, VF9",
+      "Tuổi thọ": "~15.000 km / 6–12 tháng",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "vf8",
+      "vf9",
+      "suv",
+      "vinfast"
+    ]
+  },
+  {
+    "id": "vex-limo-green",
+    "slug": "loc-gio-vinfast-limo-green",
+    "sku": "VEX-LIMO",
+    "name": "Lọc gió điều hòa VEX – Limo Green / MPV7",
+    "shortName": "VEX Filter Limo Green",
+    "category": "vinfast",
+    "vehicle": "Limo Green / MPV7",
+    "price": 229000,
+    "compareAt": 300000,
+    "badge": "MPV",
+    "inStock": true,
+    "image": "public/images/sku/limo-green.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/limo-green.png",
+      "public/images/thong-so.jpg"
+    ],
+    "summary": "Dành cho Limo Green & MPV7 – xe chở nhiều người, lọc sạch giúp cả nhà thở dễ chịu.",
+    "description": "Lọc gió VEX cho dòng MPV điện VinFast. Ưu tiên khử mùi và lọc bụi khi cabin đông người, điều hòa chạy nhiều giờ mỗi ngày.",
+    "features": [
+      "Tương thích Limo Green / MPV7",
+      "Khử mùi khi chở nhiều người",
+      "Lọc PM2.5 hiệu quả",
+      "Bảo vệ sức khỏe cả nhà",
+      "Gió mạnh, mát nhanh",
+      "Thay định kỳ dễ dàng"
+    ],
+    "specs": {
+      "Lớp lọc": "3 lớp + than hoạt tính",
+      "Vật liệu": "Giấy lọc cao cấp + than gáo dừa",
+      "Tương thích": "VinFast Limo Green, MPV7",
+      "Tuổi thọ": "~15.000 km / 6–12 tháng",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "limo-green",
+      "mpv7",
+      "vinfast"
+    ]
+  },
+  {
+    "id": "vex-combo-2",
+    "slug": "combo-2-loc-tiet-kiem",
+    "sku": "VEX-COMBO2",
+    "name": "Combo 2 lọc VEX (chọn dòng xe)",
+    "shortName": "Combo 2 lọc",
+    "category": "combo",
+    "vehicle": "Theo dòng xe",
+    "price": 349000,
+    "compareAt": 400000,
+    "badge": "Tiết kiệm",
+    "inStock": true,
+    "image": "public/images/product-hero.png",
+    "gallery": [
+      "public/images/product-hero.png",
+      "public/images/sku/tong-hop-xe.png"
+    ],
+    "summary": "Mua 2 lọc cùng lúc – đủ dùng ~1–2 năm, giá tốt hơn mua lẻ. Ghi chú dòng xe khi đặt hàng.",
+    "description": "Combo lý tưởng cho gia đình muốn dự phòng lọc thay định kỳ. Bạn chọn dòng VinFast khi nhắn Zalo / đặt hàng; chúng tôi gửi đúng size.",
+    "features": [
+      "Giá tốt hơn mua lẻ",
+      "Đủ dùng dài hạn",
+      "Chọn đúng dòng xe",
+      "Giao hàng toàn quốc",
+      "Hỗ trợ hướng dẫn lắp",
+      "Bảo hành đổi lỗi NSX"
+    ],
+    "specs": {
+      "Số lượng": "2 lọc / combo",
+      "Tương thích": "Chọn 1 dòng VinFast",
+      "Tiết kiệm": "~10–15% so với lẻ",
+      "Xuất xứ": "VEX Automotive"
+    },
+    "tags": [
+      "combo",
+      "tiet-kiem"
+    ]
+  }
+]

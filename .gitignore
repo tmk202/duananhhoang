@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.log
+
+# Env / secrets (never commit tokens)
+.env
+.env.*
+*.pem
+
+# Local only
+__pycache__/
+*.pyc
+.Python

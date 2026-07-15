@@ -1,0 +1,24 @@
+{
+  "brand": "VEX Automotive",
+  "productLine": "VEX Filter",
+  "tagline": "Bảo vệ sức khỏe – Nâng tầm trải nghiệm",
+  "phone": "0900 000 000",
+  "zalo": "https://zalo.me/0900000000",
+  "shopee": "https://shopee.vn/",
+  "email": "lienhe@vexfilter.vn",
+  "address": "Việt Nam",
+  "ctaPrimary": "Tư vấn Zalo ngay",
+  "ctaSecondary": "Xem lọc theo dòng xe",
+  "trust": [
+    "Lọc PM2.5",
+    "Than hoạt tính gáo dừa",
+    "Vừa khít xe VinFast",
+    "Độ bền ~15.000 km"
+  ],
+  "adminPin": "vex2026",
+  "github": {
+    "owner": "",
+    "repo": "",
+    "branch": "main"
+  }
+}
