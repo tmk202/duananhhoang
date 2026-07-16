@@ -219,7 +219,7 @@ function initCatalog(products, categories, site) {
       .sort((a, b) => a.order - b.order)
       .map(
         (c) =>
-          `<button type="button" class="filter-btn" data-filter="${c.id}">${c.icon || ""} ${c.name}</button>`
+          `<button type="button" class="filter-btn" data-filter="${c.id}">${c.name}</button>`
       )
       .join("");
     filters.innerHTML = allBtn + cats;
@@ -321,7 +321,7 @@ function initProductDetail(products, site) {
         <p class="pd-desc">${p.description}</p>
         <ul class="checklist">${features}</ul>
         <div class="pd-buy">
-          <a class="btn btn-primary btn-lg btn-block" href="${site.zalo}" data-zalo-product="${p.sku}" target="_blank" rel="noopener">💬 Tư vấn / Đặt qua Zalo</a>
+          <a class="btn btn-primary btn-lg btn-block" href="${site.zalo}" data-zalo-product="${p.sku}" target="_blank" rel="noopener">Tư vấn / Đặt qua Zalo</a>
           <a class="btn btn-secondary btn-block" href="${site.shopee}" target="_blank" rel="noopener">Mua trên Shopee</a>
           <p class="muted center mb-0" style="font-size:0.88rem">Gọi hotline: <strong>${site.phone}</strong> · Giao toàn quốc</p>
         </div>

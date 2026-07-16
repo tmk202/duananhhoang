@@ -43,13 +43,13 @@
         <div>VEX Admin<span>Product Manager</span></div>
       </a>
       <nav>
-        <button type="button" class="nav-item active" data-panel="products">📦 Sản phẩm</button>
-        <button type="button" class="nav-item" data-panel="form" id="navForm">➕ Thêm / Sửa</button>
-        <button type="button" class="nav-item" data-panel="categories">🏷️ Danh mục</button>
-        <button type="button" class="nav-item" data-panel="settings">⚙️ Cài đặt</button>
-        <a href="san-pham.html" target="_blank">👁 Xem shop</a>
-        <a href="index.html" target="_blank">🏠 Landing</a>
-        <button type="button" class="nav-item" id="btnLogout">🚪 Đăng xuất</button>
+        <button type="button" class="nav-item active" data-panel="products">Sản phẩm</button>
+        <button type="button" class="nav-item" data-panel="form" id="navForm">Thêm / Sửa</button>
+        <button type="button" class="nav-item" data-panel="categories">Danh mục</button>
+        <button type="button" class="nav-item" data-panel="settings">Cài đặt</button>
+        <a href="san-pham.html" target="_blank">Xem shop</a>
+        <a href="index.html" target="_blank">Landing</a>
+        <button type="button" class="nav-item" id="btnLogout">Đăng xuất</button>
       </nav>
       <div class="side-meta" id="modeBadge">Đang kiểm tra chế độ…</div>
     </aside>
@@ -58,7 +58,7 @@
       <div class="admin-top">
         <h1 id="pageTitle">Sản phẩm</h1>
         <div class="admin-toolbar" style="margin:0">
-          <button type="button" class="btn btn-secondary btn-sm" id="btnExport">⬇ Xuất products.json</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnExport">Xuất products.json</button>
           <button type="button" class="btn btn-primary btn-sm" id="btnNewProduct">+ Thêm sản phẩm</button>
         </div>
       </div>
@@ -199,10 +199,7 @@
               <label for="cId">ID (để trống = tự tạo)</label>
               <input id="cId" placeholder="vinfast">
             </div>
-            <div class="field">
-              <label for="cIcon">Icon emoji</label>
-              <input id="cIcon" placeholder="⚡" maxlength="4">
-            </div>
+            <input type="hidden" id="cIcon" value="">
             <div class="field full">
               <label for="cDesc">Mô tả</label>
               <input id="cDesc" placeholder="Mô tả ngắn">

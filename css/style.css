@@ -342,18 +342,23 @@ section { padding: 4rem 0; }
   box-shadow: var(--shadow-lg);
   border-color: var(--blue-200);
 }
-.pain-card .icon {
-  width: 48px; height: 48px;
-  border-radius: 12px;
-  display: grid; place-items: center;
+.pain-card .pain-num {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--blue-600);
   background: var(--blue-50);
-  font-size: 1.4rem;
+  border: 1px solid var(--blue-100);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
   margin-bottom: 0.9rem;
-  transition: transform .35s cubic-bezier(.22,1,.36,1), background .25s ease;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), background .25s ease, border-color .25s ease;
 }
-.pain-card:hover .icon {
-  transform: scale(1.08) rotate(-4deg);
+.pain-card:hover .pain-num {
+  transform: translateY(-2px);
   background: var(--blue-100);
+  border-color: var(--blue-200);
 }
 .pain-card h3 {
   margin: 0 0 0.4rem;
@@ -426,15 +431,14 @@ section { padding: 4rem 0; }
   font-weight: 500;
 }
 .checklist li::before {
-  content: "✓";
+  content: "";
   flex-shrink: 0;
-  width: 24px; height: 24px;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.45rem;
   border-radius: 50%;
-  background: var(--blue-50);
-  color: var(--blue-600);
-  display: grid; place-items: center;
-  font-size: 0.8rem;
-  font-weight: 800;
+  background: var(--blue-500);
+  box-shadow: 0 0 0 4px var(--blue-50);
 }
 
 /* Compare */
@@ -644,7 +648,15 @@ section { padding: 4rem 0; }
   box-shadow: var(--shadow-lg);
   border-color: var(--blue-200);
 }
-.stars { color: #f5b400; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+.stars,
+.rating {
+  color: var(--blue-700);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
 .quote-card p { margin: 0 0 1rem; color: var(--ink); }
 .quote-meta { font-size: 0.9rem; color: var(--muted); }
 .quote-meta strong { color: var(--navy); display: block; }
@@ -667,15 +679,17 @@ section { padding: 4rem 0; }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary:hover { background: var(--blue-50); }
 .faq-item summary::after {
-  content: "+";
-  font-size: 1.3rem;
-  color: var(--blue-600);
-  font-weight: 400;
+  content: "";
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--blue-600);
+  border-bottom: 2px solid var(--blue-600);
+  transform: rotate(45deg) translateY(-2px);
   transition: transform .3s cubic-bezier(.22,1,.36,1);
 }
 .faq-item[open] summary::after {
-  content: "−";
-  transform: rotate(180deg);
+  transform: rotate(225deg) translateY(-2px);
 }
 .faq-item .answer {
   padding: 0 1.25rem 1.15rem;

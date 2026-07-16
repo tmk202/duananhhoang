@@ -317,7 +317,7 @@
     const sel = $("#fCategory");
     if (!sel) return;
     sel.innerHTML = state.categories
-      .map((c) => `<option value="${c.id}">${c.icon || ""} ${c.name}</option>`)
+      .map((c) => `<option value="${c.id}">${c.name}</option>`)
       .join("");
   }
 
@@ -563,7 +563,7 @@
     el.innerHTML = state.categories
       .map(
         (c) => `<div class="admin-card" style="padding:0.9rem 1rem">
-          <strong>${c.icon || ""} ${escapeHtml(c.name)}</strong>
+          <strong>${escapeHtml(c.name)}</strong>
           <div class="hint" style="color:var(--muted);font-size:0.9rem;margin-top:0.25rem">${escapeHtml(
             c.description || ""
           )}</div>
@@ -656,7 +656,7 @@
       slug: id,
       name: $("#cName").value.trim(),
       description: $("#cDesc").value.trim(),
-      icon: $("#cIcon").value.trim() || "📦",
+      icon: $("#cIcon").value.trim() || "",
       order: state.categories.length + 1,
     };
     if (!cat.name) return toast("Nhập tên danh mục", "error");
