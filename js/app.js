@@ -67,6 +67,118 @@ function initMobileNav() {
     nav.classList.toggle("open");
     btn.setAttribute("aria-expanded", nav.classList.contains("open"));
   });
+  // close menu when a link is tapped
+  nav.addEventListener("click", (e) => {
+    if (e.target.closest("a")) {
+      nav.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+/** Sticky header shadow while scrolling */
+function initHeaderScroll() {
+  const header = qs(".header");
+  if (!header) return;
+  const onScroll = () => {
+    header.classList.toggle("is-scrolled", window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+/**
+ * Scroll-reveal + stagger for landing cards.
+ * Re-run after dynamic product grids render.
+ */
+let revealObserver = null;
+
+function ensureRevealObserver() {
+  if (revealObserver) return revealObserver;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return null;
+  }
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  return revealObserver;
+}
+
+function observeReveal(el) {
+  if (!el || el.dataset.revealObserved === "1") return;
+  const obs = ensureRevealObserver();
+  if (!obs) {
+    el.classList.add("is-visible");
+    return;
+  }
+  el.dataset.revealObserved = "1";
+  obs.observe(el);
+}
+
+function markReveal(el, type = "", stagger = false) {
+  if (!el) return;
+  if (!el.hasAttribute("data-reveal")) {
+    el.setAttribute("data-reveal", type);
+  }
+  if (stagger) el.setAttribute("data-stagger", "");
+  observeReveal(el);
+}
+
+function initScrollReveal() {
+  // Section heads & major blocks
+  qsa(".section-head, .compare-wrap, .cta-band .container").forEach((el) =>
+    markReveal(el)
+  );
+  qsa(".feature-split").forEach((split) => {
+    [...split.children].forEach((el, i) =>
+      markReveal(el, i % 2 === 0 ? "left" : "right")
+    );
+  });
+
+  // Grids with staggered children
+  [
+    ".pain-grid",
+    ".vehicle-grid",
+    ".steps",
+    ".quote-grid",
+    ".faq-list",
+  ].forEach((sel) => {
+    qsa(sel).forEach((grid) => markReveal(grid, "", true));
+  });
+
+  // Standalone cards not in marked grids
+  qsa(".pain-card, .vehicle-card, .step-card, .quote-card, .faq-item").forEach(
+    (card) => {
+      if (!card.closest("[data-stagger]")) markReveal(card);
+    }
+  );
+
+  // Images under vehicle / compare sections
+  qsa(".vehicles .center img, #so-sanh .center img").forEach((img) =>
+    markReveal(img, "zoom")
+  );
+}
+
+/** Call after product cards are injected into a grid */
+function animateProductGrid(grid) {
+  if (!grid) return;
+  // restart card entrance by forcing reflow
+  qsa(".product-card", grid).forEach((card, i) => {
+    card.style.animation = "none";
+    // eslint-disable-next-line no-unused-expressions
+    card.offsetHeight;
+    card.style.animation = "";
+    card.style.animationDelay = `${0.04 + i * 0.06}s`;
+  });
+  markReveal(grid, "", false);
+  grid.classList.add("is-visible");
 }
 
 function wireZaloCTAs(site) {
@@ -121,6 +233,7 @@ function initCatalog(products, categories, site) {
     grid.innerHTML = list.map((p) => productCard(p)).join("") ||
       `<p class="muted center">Chưa có sản phẩm trong danh mục này.</p>`;
     wireZaloCTAs(site);
+    animateProductGrid(grid);
   };
 
   render("all");
@@ -147,6 +260,7 @@ function initCatalog(products, categories, site) {
     if (filtered.length) {
       grid.innerHTML = filtered.map((p) => productCard(p)).join("");
       wireZaloCTAs(site);
+      animateProductGrid(grid);
     }
   }
 }
@@ -234,6 +348,7 @@ function initHomeProducts(products, site) {
   const featured = products.filter((p) => p.category === "vinfast").slice(0, 6);
   grid.innerHTML = featured.map((p) => productCard(p)).join("");
   wireZaloCTAs(site);
+  animateProductGrid(grid);
 }
 
 function initSiteLinks(site) {
@@ -251,6 +366,9 @@ function initSiteLinks(site) {
 
 async function boot() {
   initMobileNav();
+  initHeaderScroll();
+  // Reveal static sections immediately (works even if data fetch fails)
+  initScrollReveal();
   try {
     const { products, categories, site } = await loadAllData();
     window.VEX = { products, categories, site };
