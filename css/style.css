@@ -88,6 +88,19 @@ button, .btn { font-family: inherit; cursor: pointer; border: none; }
   font-size: 1.2rem;
   letter-spacing: -0.02em;
 }
+.logo-img {
+  height: 48px;
+  width: auto;
+  max-width: min(200px, 46vw);
+  object-fit: contain;
+  display: block;
+}
+.logo-img--light {
+  /* cover crop has light bg — keep readable on dark footer */
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 0.2rem 0.45rem;
+}
 .logo-mark {
   width: 42px;
   height: 42px;
@@ -277,6 +290,70 @@ button, .btn { font-family: inherit; cursor: pointer; border: none; }
   border-radius: 16px;
   aspect-ratio: 16/10;
   object-fit: cover;
+}
+/* Full banner — không crop chữ trên cover marketing */
+.hero-card--full {
+  background: linear-gradient(180deg, #e8f3ff 0%, #fff 100%);
+  padding: 0.65rem;
+}
+.hero-card--full img {
+  aspect-ratio: auto;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+.video-card {
+  width: 100%;
+}
+.video-placeholder {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(6, 58, 107, 0.88), rgba(11, 125, 255, 0.75)),
+    url("../public/images/cau-tao.jpg") center/cover;
+  min-height: 280px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(11, 125, 255, 0.12);
+}
+.video-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 280px;
+  padding: 2rem 1.25rem;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  transition: transform .25s ease;
+}
+.video-link:hover { transform: scale(1.02); color: #fff; }
+.video-play {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--blue-700, #0a4d8c);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+  padding-left: 4px;
+}
+.video-caption {
+  font-weight: 700;
+  font-size: 1.15rem;
+  max-width: 16rem;
+}
+.video-note {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  font-weight: 500;
 }
 .float-badge {
   position: absolute;

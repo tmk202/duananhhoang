@@ -359,6 +359,9 @@ function initSiteLinks(site) {
   qsa("a[data-zalo]").forEach((a) => {
     a.href = site.zalo;
   });
+  qsa("a[data-messenger]").forEach((a) => {
+    if (site.messenger) a.href = site.messenger;
+  });
   qsa("a[data-shopee]").forEach((a) => {
     a.href = site.shopee;
   });
