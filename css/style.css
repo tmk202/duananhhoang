@@ -291,18 +291,24 @@ button, .btn { font-family: inherit; cursor: pointer; border: none; }
   aspect-ratio: 16/10;
   object-fit: cover;
 }
-/* Full banner — không crop chữ trên cover marketing */
+/* Full banner — hiện hết chữ, không crop / không badge đè */
 .hero-card--full {
   background: linear-gradient(180deg, #e8f3ff 0%, #fff 100%);
-  padding: 0.65rem;
+  padding: 0.5rem;
+  overflow: visible;
 }
 .hero-card--full img {
   aspect-ratio: auto;
+  width: 100%;
   height: auto;
   max-height: none;
   object-fit: contain;
   object-position: center;
   background: transparent;
+  display: block;
+}
+.hero-card--full:hover img {
+  transform: none; /* không zoom crop chữ khi hover */
 }
 .video-card {
   width: 100%;
