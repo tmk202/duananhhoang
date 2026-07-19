@@ -183,20 +183,18 @@ function animateProductGrid(grid) {
 
 function wireZaloCTAs(site) {
   const zalo = site?.zalo || "https://zalo.me/";
-  qsa("[data-zalo], [data-zalo-product]").forEach((el) => {
+  qsa("[data-zalo], [data-zalo-product], [data-zalo-partner]").forEach((el) => {
     el.addEventListener("click", (e) => {
       const sku = el.getAttribute("data-zalo-product");
-      if (sku) {
+      const isPartner = el.hasAttribute("data-zalo-partner");
+      if (sku || isPartner) {
         e.preventDefault();
-        const msg = encodeURIComponent(
-          `Chào shop, mình muốn tư vấn/đặt lọc gió VEX mã ${sku}. Xe mình là: `
-        );
-        // Zalo web often ignores prefill; open zalo + copy helper
+        const text = isPartner
+          ? "Chào VEX, mình muốn hợp tác sỉ lọc gió (gara/xưởng độ). Tên xưởng: … · Khu vực: … · SL/tháng dự kiến: …"
+          : `Chào shop, mình muốn tư vấn/đặt lọc gió VEX mã ${sku}. Xe mình là: `;
         window.open(zalo, "_blank", "noopener");
         try {
-          navigator.clipboard?.writeText(
-            `Chào shop, mình muốn tư vấn/đặt lọc gió VEX mã ${sku}. Xe mình là: `
-          );
+          navigator.clipboard?.writeText(text);
         } catch (_) {}
       }
     });

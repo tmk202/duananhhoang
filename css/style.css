@@ -445,6 +445,108 @@ button, .btn { font-family: inherit; cursor: pointer; border: none; }
   font-size: 0.85rem;
   margin-top: 0.15rem;
 }
+
+/* Partnership B2B */
+.partner-section {
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(11, 125, 255, 0.08), transparent 55%),
+    linear-gradient(180deg, #fff 0%, #f0f7ff 100%);
+  padding: 4rem 0;
+}
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+.partner-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.15rem;
+}
+.partner-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--blue-50);
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.partner-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.02rem;
+  color: var(--navy);
+}
+.partner-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+.partner-cta-box {
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: 1.5rem;
+  align-items: center;
+  background: linear-gradient(135deg, var(--navy), var(--blue-800));
+  color: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow-lg);
+}
+.partner-cta-text h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+.partner-cta-text p {
+  margin: 0 0 0.85rem;
+  color: #c5daf5;
+  line-height: 1.55;
+}
+.partner-bullets {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #e8f2ff;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.partner-cta-actions {
+  display: grid;
+  gap: 0.65rem;
+}
+.partner-cta-actions .btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.partner-cta-actions .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.partner-note {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: #a8c4e8;
+  text-align: center;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .partner-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .partner-cta-box {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .partner-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .float-badge {
   position: absolute;
   bottom: 1.5rem;
