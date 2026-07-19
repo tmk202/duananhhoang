@@ -369,6 +369,37 @@ button, .btn { font-family: inherit; cursor: pointer; border: none; }
   opacity: 0.9;
   font-weight: 500;
 }
+
+/* Performance test — HTML5 video */
+.video-section {
+  background: linear-gradient(180deg, #f0f7ff 0%, #fff 55%, var(--bg) 100%);
+}
+.video-frame {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line);
+  background: #0b1f3a;
+}
+.video-player {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: min(70vh, 520px);
+  object-fit: contain;
+  background: #000;
+  vertical-align: middle;
+}
+.video-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
 .float-badge {
   position: absolute;
   bottom: 1.5rem;
