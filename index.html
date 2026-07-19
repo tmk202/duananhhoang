@@ -182,7 +182,7 @@
       </div>
     </section>
 
-    <!-- PERFORMANCE TEST VIDEO (Facebook) -->
+    <!-- PERFORMANCE TEST VIDEO (local file, hosted on GitHub Pages) -->
     <section id="test-hieu-nang" class="video-section">
       <div class="container">
         <div class="section-head">
@@ -190,33 +190,21 @@
           <h2>Video test hiệu năng lọc gió VEX</h2>
           <p>Xem cách lọc than hoạt tính VEX giữ bụi, khử mùi — dễ hiểu trong vài phút, phù hợp chủ xe muốn “thấy tận mắt” trước khi mua.</p>
         </div>
-        <div class="video-frame video-frame--fb">
-          <div class="fb-video-wrap">
-            <iframe
-              class="fb-video-iframe"
-              src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1EMSFNM2Ws%2F&show_text=false&width=900"
-              title="Video test hiệu năng lọc gió VEX Filter trên Facebook"
-              style="border:none;overflow:hidden"
-              scrolling="no"
-              frameborder="0"
-              allowfullscreen="true"
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              loading="lazy"
-            ></iframe>
-          </div>
-          <!-- Fallback nếu iframe FB bị chặn / mobile -->
-          <a
-            class="video-fb-fallback"
-            href="https://www.facebook.com/share/r/1EMSFNM2Ws/"
-            target="_blank"
-            rel="noopener"
+        <div class="video-frame">
+          <video
+            class="video-player"
+            controls
+            playsinline
+            preload="metadata"
+            poster="public/images/cover.png"
+            title="Test hiệu năng lọc gió điều hòa VEX Filter"
           >
-            <span class="video-play">▶</span>
-            <span>
-              <strong>Xem video test hiệu năng trên Facebook</strong>
-              <small>Bấm nếu video không hiện trong khung</small>
-            </span>
-          </a>
+            <source src="public/videos/test-hieu-nang.mp4" type="video/mp4">
+            Trình duyệt không phát được video.
+            <a href="public/videos/test-hieu-nang.mp4">Tải video</a>
+            hoặc
+            <a href="https://www.facebook.com/share/r/1EMSFNM2Ws/" target="_blank" rel="noopener">xem trên Facebook</a>.
+          </video>
         </div>
         <div class="video-meta">
           <span class="trust-pill">Lọc bụi mịn PM2.5</span>
@@ -224,9 +212,9 @@
           <span class="trust-pill">So sánh thực tế</span>
         </div>
         <div class="center hero-actions" style="justify-content:center;margin-top:1.25rem">
-          <a class="btn btn-primary" href="https://www.facebook.com/share/r/1EMSFNM2Ws/" target="_blank" rel="noopener">▶ Xem trên Facebook</a>
-          <a class="btn btn-secondary" href="san-pham.html">Chọn lọc theo xe</a>
+          <a class="btn btn-primary" href="san-pham.html">Chọn lọc theo xe</a>
           <a class="btn btn-secondary" href="#lien-he" data-zalo>Tư vấn Zalo</a>
+          <a class="btn btn-secondary" href="https://www.facebook.com/share/r/1EMSFNM2Ws/" target="_blank" rel="noopener">Nguồn Facebook</a>
         </div>
       </div>
     </section>
