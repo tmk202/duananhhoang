@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sáº£n pháº©m lá»c giÃ³ VinFast | VEX Filter</title>
-  <meta name="description" content="Danh má»¥c lá»c giÃ³ Ä‘iá»u hÃ²a VEX cho VinFast VF3, VF5, VF6, VF7, VF8, VF9, Limo Green. Lá»c than hoáº¡t tÃ­nh, giÃ¡ rÃµ rÃ ng.">
+  <title>Sản phẩm lọc gió VinFast | VEX Filter</title>
+  <meta name="description" content="Danh mục lọc gió điều hòa VEX cho VinFast VF3, VF5, VF6, VF7, VF8, VF9, Limo Green. Lọc than hoạt tính, giá rõ ràng.">
   <meta name="theme-color" content="#0a4d8c">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="public/favicon-32.png" type="image/png" sizes="32x32">
@@ -12,52 +12,52 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=float6">
+  <link rel="stylesheet" href="css/style.css?v=float7">
 </head>
 <body>
   <div class="topbar">
     <div class="container">
-      <span>Chá»n Ä‘Ãºng dÃ²ng xe â†’ nháº­n lá»c vá»«a khÃ­t</span>
+      <span>Chọn đúng dòng xe → nhận lọc vừa khít</span>
       <span>Hotline: <strong data-phone>0983 047 842</strong></span>
     </div>
   </div>
 
   <header class="header">
     <div class="container header-inner">
-      <a class="logo" href="index.html" aria-label="VEX Automotive trang chá»§">
+      <a class="logo" href="index.html" aria-label="VEX Automotive trang chủ">
         <img class="logo-img" src="public/images/logo.png" alt="VEX Automotive" width="160" height="48">
       </a>
-      <button class="menu-btn" id="menuBtn" type="button" aria-label="Má»Ÿ menu">Menu</button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Mở menu">Menu</button>
       <nav class="nav" id="mainNav">
-        <a href="index.html">Trang chá»§</a>
-        <a href="san-pham.html">Sáº£n pháº©m</a>
-        <a href="index.html#huong-dan">Tá»± thay lá»c</a>
-        <a href="index.html#faq">Há»i Ä‘Ã¡p</a>
-        <a class="nav-cta" href="#" data-zalo>TÆ° váº¥n ngay</a>
+        <a href="index.html">Trang chủ</a>
+        <a href="san-pham.html">Sản phẩm</a>
+        <a href="index.html#huong-dan">Tự thay lọc</a>
+        <a href="index.html#faq">Hỏi đáp</a>
+        <a class="nav-cta" href="#" data-zalo>Tư vấn ngay</a>
       </nav>
     </div>
   </header>
 
   <section class="page-hero">
     <div class="container">
-      <h1 id="pageTitle">Danh má»¥c lá»c giÃ³ VEX</h1>
-      <p>Lá»c theo danh má»¥c hoáº·c dÃ²ng xe. Dá»¯ liá»‡u tá»« <code>data/products.json</code> + <code>data/categories.json</code> â€” thÃªm sáº£n pháº©m khÃ´ng cáº§n Ä‘á»¥ng code HTML.</p>
+      <h1 id="pageTitle">Danh mục lọc gió VEX</h1>
+      <p>Lọc theo danh mục hoặc dòng xe. Dữ liệu từ <code>data/products.json</code> + <code>data/categories.json</code> — thêm sản phẩm không cần đụng code HTML.</p>
     </div>
   </section>
 
   <main class="container" style="padding: 2rem 0 4rem">
     <div class="catalog-toolbar">
       <div class="filters" id="categoryFilters"></div>
-      <a class="btn btn-primary" href="#" data-zalo>Há»i lá»c nÃ o vá»«a xe</a>
+      <a class="btn btn-primary" href="#" data-zalo>Hỏi lọc nào vừa xe</a>
     </div>
 
-    <!-- Chi tiáº¿t sáº£n pháº©m (khi cÃ³ ?slug=) -->
+    <!-- Chi tiết sản phẩm (khi có ?slug=) -->
     <div id="productDetail"></div>
 
-    <!-- LÆ°á»›i danh má»¥c (áº©n khi Ä‘ang xem chi tiáº¿t cÃ³ slug) -->
+    <!-- Lưới danh mục (ẩn khi đang xem chi tiết có slug) -->
     <div id="catalogSection">
       <div class="product-grid" id="productGrid">
-        <p class="muted">Äang táº£iâ€¦</p>
+        <p class="muted">Đang tải…</p>
       </div>
     </div>
   </main>
@@ -65,13 +65,13 @@
   <section class="cta-band" id="lien-he">
     <div class="container">
       <div>
-        <h2>Cáº§n combo 2 lá»c / Ä‘á»•i tráº£?</h2>
-        <p>Nháº¯n Zalo model xe + sá»‘ lÆ°á»£ng. Shop bÃ¡o giÃ¡ ship vÃ  hÆ°á»›ng dáº«n láº¯p.</p>
+        <h2>Cần combo 2 lọc / đổi trả?</h2>
+        <p>Nhắn Zalo model xe + số lượng. Shop báo giá ship và hướng dẫn lắp.</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-primary btn-lg" href="#" data-zalo>TÆ° váº¥n ngay</a>
+        <a class="btn btn-primary btn-lg" href="#" data-zalo>Tư vấn ngay</a>
         <a class="btn btn-ghost btn-lg" href="#" data-messenger>Messenger</a>
-        <a class="btn btn-ghost btn-lg" href="index.html">Vá» trang chá»§</a>
+        <a class="btn btn-ghost btn-lg" href="index.html">Về trang chủ</a>
       </div>
     </div>
   </section>
@@ -82,46 +82,46 @@
         <a class="logo logo--footer" href="index.html" style="margin-bottom:0.75rem">
           <img class="logo-img logo-img--light" src="public/images/logo.png" alt="VEX Filter" width="150" height="45">
         </a>
-        <p><strong>VEX Filter</strong><br>Lá»c giÃ³ Ä‘iá»u hÃ²a cao cáº¥p.</p>
+        <p><strong>VEX Filter</strong><br>Lọc gió điều hòa cao cấp.</p>
       </div>
       <div>
-        <h4>Danh má»¥c</h4>
-        <a href="san-pham.html?cat=vinfast">Lá»c giÃ³ VinFast</a>
-        <a href="san-pham.html?cat=combo">Combo tiáº¿t kiá»‡m</a>
+        <h4>Danh mục</h4>
+        <a href="san-pham.html?cat=vinfast">Lọc gió VinFast</a>
+        <a href="san-pham.html?cat=combo">Combo tiết kiệm</a>
       </div>
       <div>
-        <h4>LiÃªn há»‡</h4>
+        <h4>Liên hệ</h4>
         <p><span data-phone>0983 047 842</span></p>
         <a href="#" data-zalo>Zalo</a>
         <a href="#" data-messenger>Messenger</a>
         <a href="#" data-shopee>Shopee</a>
       </div>
       <div>
-        <h4>ThÃªm sáº£n pháº©m</h4>
-        <p>Sá»­a file <code>data/products.json</code> trÃªn repo, commit & push â€” trang tá»± cáº­p nháº­t.</p>
+        <h4>Thêm sản phẩm</h4>
+        <p>Sửa file <code>data/products.json</code> trên repo, commit & push — trang tự cập nhật.</p>
       </div>
     </div>
     <div class="container footer-bottom">
-      <span>Â© 2026 VEX Automotive</span>
-      <span>GiÃ¡ demo â€” chá»‰nh trong data/site.json & products.json</span>
+      <span>© 2026 VEX Automotive</span>
+      <span>Giá demo — chỉnh trong data/site.json & products.json</span>
     </div>
   </footer>
 
   <script>
-    // áº¨n lÆ°á»›i catalog khi Ä‘ang xem chi tiáº¿t (?slug=)
+    // Ẩn lưới catalog khi đang xem chi tiết (?slug=)
     document.addEventListener("DOMContentLoaded", () => {
       const slug = new URLSearchParams(location.search).get("slug");
       const catalog = document.getElementById("catalogSection");
       const title = document.getElementById("pageTitle");
       if (slug && catalog) {
         catalog.style.display = "none";
-        if (title) title.textContent = "Chi tiáº¿t sáº£n pháº©m";
+        if (title) title.textContent = "Chi tiết sản phẩm";
         document.querySelector(".page-hero p")?.remove();
       }
     });
   </script>
-  <!-- Float contact â€” luÃ´n hiá»‡n (gÃ³c pháº£i), icon Ä‘á»“ng bá»™ -->
-  <div id="floatContact" class="float-contact is-open float-contact--always-open" aria-label="LiÃªn há»‡ nhanh">
+  <!-- Float contact — luôn hiện (góc phải), icon đồng bộ -->
+  <div id="floatContact" class="float-contact is-open float-contact--always-open" aria-label="Liên hệ nhanh">
     <div class="float-contact__list">
       <a class="float-btn float-btn--zalo" href="https://zalo.me/0983047842" target="_blank" rel="noopener" data-zalo title="Chat Zalo">
         <span class="float-btn__icon"><img src="public/images/zalo-icon.svg" alt="" width="48" height="48" class="float-btn__img"></span>
@@ -131,13 +131,13 @@
         <span class="float-btn__icon"><img src="public/images/messenger-icon.svg" alt="" width="48" height="48" class="float-btn__img"></span>
         <span class="float-btn__label">Messenger</span>
       </a>
-      <a class="float-btn float-btn--phone" href="tel:0983047842" title="Gá»i 0983 047 842" data-phone-link>
+      <a class="float-btn float-btn--phone" href="tel:0983047842" title="Gọi 0983 047 842" data-phone-link>
         <span class="float-btn__icon"><img src="public/images/phone-icon.svg" alt="" width="48" height="48" class="float-btn__img"></span>
-        <span class="float-btn__label">Gá»i ngay</span>
+        <span class="float-btn__label">Gọi ngay</span>
       </a>
     </div>
   </div>
 
-  <script src="js/app.js?v=float6"></script>
+  <script src="js/app.js?v=float7"></script>
 </body>
 </html>
