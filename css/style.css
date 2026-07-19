@@ -1460,8 +1460,33 @@ section { padding: 4rem 0; }
 .float-contact.is-open .float-btn:nth-child(2) { animation-delay: 0.06s; }
 .float-contact.is-open .float-btn:nth-child(3) { animation-delay: 0.1s; }
 .float-contact.is-open .float-btn:nth-child(4) { animation-delay: 0.14s; }
+/* Luôn xòe sẵn: hiện ngay, không phụ thuộc toggle */
+.float-contact--always-open .float-btn {
+  opacity: 1;
+  transform: translateX(0);
+  animation: none;
+}
+.float-contact--always-open .float-contact__list {
+  display: flex !important;
+}
 @keyframes float-in {
   to { transform: translateX(0); opacity: 1; }
+}
+/* Mobile: chỉ icon tròn, gọn góc màn hình */
+@media (max-width: 560px) {
+  .float-contact--always-open .float-btn {
+    padding: 0.3rem;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+  }
+  .float-contact--always-open .float-btn__label {
+    display: none;
+  }
+  .float-contact--always-open .float-btn__icon {
+    width: 44px;
+    height: 44px;
+  }
 }
 .float-btn:hover {
   transform: translateX(-3px) scale(1.03);

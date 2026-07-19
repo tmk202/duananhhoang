@@ -380,8 +380,10 @@ function injectFloatContact(site = {}) {
   root.id = "floatContact";
   root.className = "float-contact";
   root.setAttribute("aria-label", "Liên hệ nhanh");
+  // Luôn xòe sẵn 4 kênh — không cần bấm mở
+  root.className = "float-contact is-open float-contact--always-open";
   root.innerHTML = `
-    <div class="float-contact__list" id="floatContactList" hidden>
+    <div class="float-contact__list" id="floatContactList">
       <a class="float-btn float-btn--zalo" href="${zalo}" target="_blank" rel="noopener" data-zalo title="Chat Zalo">
         <span class="float-btn__icon" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="28" height="28" fill="none"><circle cx="24" cy="24" r="24" fill="#0068FF"/><path fill="#fff" d="M14.5 18.2c0-3.4 3.9-6.2 8.7-6.2s8.7 2.8 8.7 6.2-3.9 6.2-8.7 6.2c-.6 0-1.2 0-1.8-.1l-3.2 2v-2.6c-2.2-1.1-3.7-3-3.7-5.5zm4.2.3h1.7l2.1 2.8 2.1-2.8h1.7l-2.9 3.7v2.5h-1.8v-2.5l-2.9-3.7zm9.6 6.8c0 2.6-3.1 4.8-7 5.3l-.2 2.1 2.4-1.4c3.8-.2 6.8-2.5 6.8-5.4 0-1.3-.7-2.5-1.8-3.4.1.5.1.9.1 1.4 0 .5-.1.9-.3 1.4z"/></svg>
@@ -407,22 +409,8 @@ function injectFloatContact(site = {}) {
         <span class="float-btn__label">Shopee</span>
       </a>
     </div>
-    <button type="button" class="float-contact__toggle" id="floatContactToggle" aria-expanded="false" aria-controls="floatContactList" title="Liên hệ">
-      <span class="float-contact__toggle-open" aria-hidden="true">💬</span>
-      <span class="float-contact__toggle-close" aria-hidden="true">✕</span>
-      <span class="float-contact__pulse" aria-hidden="true"></span>
-    </button>
   `;
   document.body.appendChild(root);
-
-  const toggle = root.querySelector("#floatContactToggle");
-  const list = root.querySelector("#floatContactList");
-  toggle.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!open));
-    root.classList.toggle("is-open", !open);
-    list.hidden = open;
-  });
 }
 
 async function boot() {
