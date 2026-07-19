@@ -365,15 +365,80 @@ function initSiteLinks(site) {
   });
 }
 
+/** Floating contact icons — bottom-right (skip admin pages) */
+function injectFloatContact(site = {}) {
+  if (document.getElementById("floatContact")) return;
+  if (/admin\.html/i.test(location.pathname)) return;
+
+  const phone = (site.phone || "0983 047 842").replace(/\s/g, "");
+  const phoneLabel = site.phone || "0983 047 842";
+  const zalo = site.zalo || "https://zalo.me/0983047842";
+  const messenger = site.messenger || "https://m.me/";
+  const shopee = site.shopee || "https://shopee.vn/";
+
+  const root = document.createElement("div");
+  root.id = "floatContact";
+  root.className = "float-contact";
+  root.setAttribute("aria-label", "Liên hệ nhanh");
+  root.innerHTML = `
+    <div class="float-contact__list" id="floatContactList" hidden>
+      <a class="float-btn float-btn--zalo" href="${zalo}" target="_blank" rel="noopener" data-zalo title="Chat Zalo">
+        <span class="float-btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28" fill="none"><circle cx="24" cy="24" r="24" fill="#0068FF"/><path fill="#fff" d="M14.5 18.2c0-3.4 3.9-6.2 8.7-6.2s8.7 2.8 8.7 6.2-3.9 6.2-8.7 6.2c-.6 0-1.2 0-1.8-.1l-3.2 2v-2.6c-2.2-1.1-3.7-3-3.7-5.5zm4.2.3h1.7l2.1 2.8 2.1-2.8h1.7l-2.9 3.7v2.5h-1.8v-2.5l-2.9-3.7zm9.6 6.8c0 2.6-3.1 4.8-7 5.3l-.2 2.1 2.4-1.4c3.8-.2 6.8-2.5 6.8-5.4 0-1.3-.7-2.5-1.8-3.4.1.5.1.9.1 1.4 0 .5-.1.9-.3 1.4z"/></svg>
+        </span>
+        <span class="float-btn__label">Zalo</span>
+      </a>
+      <a class="float-btn float-btn--msg" href="${messenger}" target="_blank" rel="noopener" data-messenger title="Messenger">
+        <span class="float-btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28"><circle cx="24" cy="24" r="24" fill="#0084FF"/><path fill="#fff" d="M24 12.5c-6.9 0-12.5 5.2-12.5 11.6 0 3.6 1.8 6.9 4.7 9l.4 3.3 3.5-1.9c1.2.3 2.5.5 3.9.5 6.9 0 12.5-5.2 12.5-11.6S30.9 12.5 24 12.5zm1.3 15.6-3.2-3.4-6.2 3.4 6.8-7.2 3.3 3.4 6.1-3.4-6.8 7.2z"/></svg>
+        </span>
+        <span class="float-btn__label">Messenger</span>
+      </a>
+      <a class="float-btn float-btn--phone" href="tel:${phone}" title="Gọi ${phoneLabel}">
+        <span class="float-btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28"><circle cx="24" cy="24" r="24" fill="#22c55e"/><path fill="#fff" d="M31.8 28.4c-.5-.3-2.9-1.4-3.3-1.6-.5-.2-.8-.3-1.1.3-.3.5-1.3 1.6-1.6 1.9-.3.3-.6.4-1.1.1-.5-.3-2.1-.8-4-2.5-1.5-1.3-2.5-2.9-2.8-3.4-.3-.5 0-.7.2-1 .2-.2.5-.6.7-.9.2-.3.3-.5.4-.8.1-.3 0-.6 0-.8 0-.3-1.1-2.7-1.5-3.7-.4-1-.8-.8-1.1-.8h-.9c-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8s1.6 4.4 1.9 4.7c.2.3 3.2 4.9 7.7 6.8 1.1.5 1.9.7 2.6 1 .9.2 1.8.2 2.4.1.7-.1 2.9-1.2 3.3-2.3.4-1.1.4-2.1.3-2.3 0-.2-.4-.4-.9-.6z"/></svg>
+        </span>
+        <span class="float-btn__label">Gọi ngay</span>
+      </a>
+      <a class="float-btn float-btn--shopee" href="${shopee}" target="_blank" rel="noopener" data-shopee title="Shopee">
+        <span class="float-btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28"><circle cx="24" cy="24" r="24" fill="#ee4d2d"/><path fill="#fff" d="M17 20.5h14v12.2c0 1.3-1 2.3-2.3 2.3H19.3c-1.3 0-2.3-1-2.3-2.3V20.5zm3.2-3.2c0-2.1 1.7-3.8 3.8-3.8s3.8 1.7 3.8 3.8v1.6h-2.1v-1.6c0-1-.8-1.7-1.7-1.7s-1.7.8-1.7 1.7v1.6h-2.1v-1.6z"/></svg>
+        </span>
+        <span class="float-btn__label">Shopee</span>
+      </a>
+    </div>
+    <button type="button" class="float-contact__toggle" id="floatContactToggle" aria-expanded="false" aria-controls="floatContactList" title="Liên hệ">
+      <span class="float-contact__toggle-open" aria-hidden="true">💬</span>
+      <span class="float-contact__toggle-close" aria-hidden="true">✕</span>
+      <span class="float-contact__pulse" aria-hidden="true"></span>
+    </button>
+  `;
+  document.body.appendChild(root);
+
+  const toggle = root.querySelector("#floatContactToggle");
+  const list = root.querySelector("#floatContactList");
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    root.classList.toggle("is-open", !open);
+    list.hidden = open;
+  });
+}
+
 async function boot() {
   initMobileNav();
   initHeaderScroll();
   // Reveal static sections immediately (works even if data fetch fails)
   initScrollReveal();
+  // Float bar with defaults first, then refresh links when site.json loads
+  injectFloatContact();
   try {
     const { products, categories, site } = await loadAllData();
     window.VEX = { products, categories, site };
     initSiteLinks(site);
+    // Rebuild float with real links from site.json
+    document.getElementById("floatContact")?.remove();
+    injectFloatContact(site);
     initHomeProducts(products, site);
     initCatalog(products, categories, site);
     initProductDetail(products, site);
