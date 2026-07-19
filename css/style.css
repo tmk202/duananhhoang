@@ -1513,10 +1513,26 @@ section { padding: 4rem 0; }
   padding-right: 0.35rem;
   white-space: nowrap;
 }
-.float-btn--zalo { background: #0068ff; }
+.float-btn--zalo {
+  background: #fff;
+  color: #0068ff !important;
+  border: 1px solid #d6e8ff;
+}
+.float-btn--zalo .float-btn__label { color: #0068ff; }
+.float-btn--zalo .float-btn__icon {
+  background: transparent;
+  padding: 0;
+}
+.float-btn__img {
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .float-btn--msg { background: #0084ff; }
 .float-btn--phone { background: #16a34a; }
-.float-btn--shopee { background: #ee4d2d; }
+.float-btn--shopee { background: #ee4d2d; display: none !important; /* tạm ẩn */ }
 
 .float-contact__toggle {
   position: relative;
