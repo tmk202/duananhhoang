@@ -210,6 +210,15 @@
     const setup = $("#googleSetupBlock");
     const hint = $("#googleLoginHint");
     const lead = $("#loginLead");
+    const originEl = $("#originDebug");
+    if (originEl) {
+      const origin = window.location.origin;
+      originEl.innerHTML = `Origin hiện tại: <code>${escapeHtml(origin)}</code> — phải khớp 100% JS origin trong Google Console.`;
+      if (origin.includes("127.0.0.1")) {
+        originEl.innerHTML +=
+          `<br><strong style="color:#b91c1c">Đang dùng 127.0.0.1 → đổi sang http://localhost:8080/admin.html</strong>`;
+      }
+    }
 
     if (!clientId) {
       if (setup) setup.hidden = false;

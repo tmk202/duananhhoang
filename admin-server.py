@@ -239,8 +239,9 @@ def main():
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     print("=" * 56)
     print("  VEX Filter Admin Server")
-    print(f"  Site:  http://{HOST}:{PORT}/")
-    print(f"  Admin: http://{HOST}:{PORT}/admin.html")
+    print(f"  Site:  http://localhost:{PORT}/")
+    print(f"  Admin: http://localhost:{PORT}/admin.html")
+    print("  Google OAuth: dùng localhost (không dùng 127.0.0.1)")
     print(f"  PIN:   xem data/site.json → adminPin")
     print("=" * 56)
     try:
