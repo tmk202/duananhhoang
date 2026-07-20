@@ -64,9 +64,16 @@ python admin-server.py
 | http://127.0.0.1:8080/san-pham.html | Shop |
 | http://127.0.0.1:8080/admin.html | Admin |
 
-PIN mặc định: `vex2026` (`data/site.json` → `adminPin`).
+### Admin login (Google)
 
-Local server ghi file máy; không cần token. Online trên Pages thì dùng GitHub Token.
+1. Google Cloud → **OAuth client ID (Web)**  
+2. Authorized JS origins: `http://127.0.0.1:8080`, `https://tmk202.github.io`  
+3. Trong `data/site.json` (hoặc Admin → Cài đặt):
+   - `googleClientId`: Client ID  
+   - `adminEmails`: `["ban@gmail.com", "sep@gmail.com"]`  
+4. Mở `admin.html` → **Sign in with Google**
+
+PIN local (`adminPin`) chỉ dự phòng / `admin-server.py`. Online: Google + GitHub Token để ghi SP.
 
 ## Deploy GitHub Pages
 

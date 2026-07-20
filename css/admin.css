@@ -306,6 +306,65 @@
 }
 
 /* Login */
+.google-btn-host {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+.google-setup {
+  margin: 0.75rem 0;
+  padding: 0.85rem 1rem;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: var(--ink, #0f172a);
+  line-height: 1.55;
+}
+.google-setup ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+.google-setup code {
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+.pin-fallback {
+  margin-top: 1rem;
+  border-top: 1px dashed var(--border, #e2e8f0);
+  padding-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--muted, #64748b);
+}
+.pin-fallback summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink, #0f172a);
+}
+.login-error {
+  margin: 0.75rem 0 0;
+  padding: 0.65rem 0.85rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #991b1b;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.login-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted, #64748b);
+  word-break: break-all;
+}
+.login-user img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
 .login-wrap {
   min-height: 100vh;
   display: grid;

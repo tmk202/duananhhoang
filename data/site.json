@@ -18,6 +18,8 @@
     "Độ bền ~15.000 km"
   ],
   "adminPin": "vex2026",
+  "googleClientId": "",
+  "adminEmails": [],
   "github": {
     "owner": "tmk202",
     "repo": "duananhhoang",

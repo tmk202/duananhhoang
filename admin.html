@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/admin.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="admin-body">
   <!-- LOGIN -->
@@ -22,17 +23,42 @@
         <img class="logo-img" src="public/images/logo.png" alt="VEX Automotive" width="160" height="48">
       </div>
       <h1>Đăng nhập Admin</h1>
-      <p>PIN mặc định: <code>vex2026</code> (đổi trong <code>data/site.json</code> → adminPin).</p>
-      <form id="loginForm">
-        <div class="field" style="margin-bottom:1rem">
-          <label for="loginPin">Mã PIN</label>
-          <input id="loginPin" type="password" autocomplete="current-password" placeholder="Nhập PIN" required>
-        </div>
-        <button class="btn btn-primary btn-block" type="submit">Vào trang quản trị</button>
-      </form>
+      <p id="loginLead">Đăng nhập bằng Google (email trong allowlist).</p>
+
+      <div id="googleLoginBlock">
+        <div id="googleBtn" class="google-btn-host"></div>
+        <p id="googleLoginHint" class="hint" style="margin-top:0.85rem;font-size:0.85rem;color:var(--muted)"></p>
+        <p id="googleLoginError" class="login-error" hidden></p>
+      </div>
+
+      <div id="googleSetupBlock" class="google-setup" hidden>
+        <p><strong>Chưa cấu hình Google Client ID</strong></p>
+        <ol>
+          <li>Google Cloud Console → APIs &amp; Services → <strong>Credentials</strong></li>
+          <li>Create credentials → <strong>OAuth client ID</strong> → Web application</li>
+          <li>Authorized JavaScript origins:
+            <code>http://127.0.0.1:8080</code>,
+            <code>https://tmk202.github.io</code>
+          </li>
+          <li>Copy Client ID → dán vào <code>data/site.json</code> → <code>googleClientId</code></li>
+          <li>Thêm email admin vào <code>adminEmails</code> (vd mail sếp + mail mày)</li>
+        </ol>
+      </div>
+
+      <details id="pinFallback" class="pin-fallback">
+        <summary>Đăng nhập PIN (local / dự phòng)</summary>
+        <form id="loginForm" style="margin-top:0.75rem">
+          <div class="field" style="margin-bottom:0.75rem">
+            <label for="loginPin">Mã PIN</label>
+            <input id="loginPin" type="password" autocomplete="current-password" placeholder="PIN local">
+          </div>
+          <button class="btn btn-secondary btn-block" type="submit">Vào bằng PIN</button>
+        </form>
+      </details>
+
       <p class="hint" style="margin-top:1rem;font-size:0.85rem;color:var(--muted)">
-        <strong>Thêm SP online (free mãi):</strong> vào Cài đặt → dán GitHub Token.<br>
-        <strong>Hoặc local:</strong> <code>python admin-server.py</code>
+        <strong>Online:</strong> Google login → Cài đặt → GitHub Token để lưu SP.<br>
+        <strong>Local:</strong> <code>python admin-server.py</code>
       </p>
     </div>
   </div>
@@ -259,8 +285,17 @@
         </div>
 
         <div class="admin-card">
-          <h2>Liên hệ & PIN admin</h2>
+          <h2>Google Login &amp; liên hệ</h2>
           <form id="siteForm" class="form-grid">
+            <div class="field full">
+              <label for="sGoogleClientId">Google OAuth Client ID</label>
+              <input id="sGoogleClientId" placeholder="xxxxx.apps.googleusercontent.com" autocomplete="off">
+              <div class="hint">Web client từ Google Cloud Console. Origins: localhost + domain Pages.</div>
+            </div>
+            <div class="field full">
+              <label for="sAdminEmails">Email được vào admin (cách nhau dấu phẩy)</label>
+              <input id="sAdminEmails" placeholder="ban@gmail.com, sep@gmail.com" autocomplete="off">
+            </div>
             <div class="field">
               <label for="sPhone">Hotline</label>
               <input id="sPhone" placeholder="0900 000 000">
@@ -274,12 +309,13 @@
               <input id="sShopee" placeholder="https://shopee.vn/...">
             </div>
             <div class="field">
-              <label for="sEmail">Email</label>
+              <label for="sEmail">Email liên hệ shop</label>
               <input id="sEmail" type="email">
             </div>
             <div class="field full">
-              <label for="sPin">PIN admin</label>
+              <label for="sPin">PIN local (admin-server.py)</label>
               <input id="sPin" type="text" autocomplete="off">
+              <div class="hint">Chỉ dùng khi chạy local server; không phải đăng nhập chính.</div>
             </div>
             <div class="full">
               <button type="submit" class="btn btn-primary">Lưu cài đặt site</button>

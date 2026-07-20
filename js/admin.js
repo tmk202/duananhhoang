@@ -7,6 +7,7 @@
 (function () {
   const STORAGE_PIN = "vex_admin_pin";
   const STORAGE_GH = "vex_github_cfg";
+  const STORAGE_GOOGLE = "vex_admin_google";
 
   const state = {
     pin: sessionStorage.getItem(STORAGE_PIN) || "",
@@ -19,6 +20,8 @@
     gallery: [],
     imagePath: "",
     github: loadGithubCfg(),
+    googleUser: loadGoogleSession(),
+    authMethod: null, // "google" | "pin"
   };
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -36,6 +39,196 @@
     state.github = cfg;
     localStorage.setItem(STORAGE_GH, JSON.stringify(cfg));
     refreshModes();
+  }
+
+  function loadGoogleSession() {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_GOOGLE);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data?.email || !data?.exp) return null;
+      if (Date.now() >= Number(data.exp) * 1000) {
+        sessionStorage.removeItem(STORAGE_GOOGLE);
+        return null;
+      }
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveGoogleSession(user) {
+    state.googleUser = user;
+    sessionStorage.setItem(STORAGE_GOOGLE, JSON.stringify(user));
+  }
+
+  function clearGoogleSession() {
+    state.googleUser = null;
+    sessionStorage.removeItem(STORAGE_GOOGLE);
+  }
+
+  function normalizeEmails(list) {
+    if (!Array.isArray(list)) return [];
+    return list
+      .map((e) => String(e || "").trim().toLowerCase())
+      .filter(Boolean);
+  }
+
+  function parseEmailList(str) {
+    return String(str || "")
+      .split(/[,;\n]+/)
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean);
+  }
+
+  function parseJwtPayload(credential) {
+    try {
+      const part = String(credential || "").split(".")[1];
+      if (!part) return null;
+      const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
+      const json = decodeURIComponent(
+        atob(b64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
+  }
+
+  function setLoginError(msg) {
+    const el = $("#googleLoginError");
+    if (!el) return;
+    if (!msg) {
+      el.hidden = true;
+      el.textContent = "";
+      return;
+    }
+    el.hidden = false;
+    el.textContent = msg;
+  }
+
+  async function fetchAuthConfig() {
+    const bust = "?t=" + Date.now();
+    try {
+      const site = await fetch("data/site.json" + bust).then((r) => r.json());
+      return site || {};
+    } catch {
+      return {};
+    }
+  }
+
+  function isEmailAllowed(email, site) {
+    const allowed = normalizeEmails(site?.adminEmails);
+    if (!allowed.length) return false;
+    return allowed.includes(String(email || "").trim().toLowerCase());
+  }
+
+  async function handleGoogleCredential(response) {
+    setLoginError("");
+    const credential = response?.credential;
+    if (!credential) {
+      setLoginError("Không nhận được credential từ Google.");
+      return;
+    }
+
+    const site = state.site || (await fetchAuthConfig());
+    state.site = site;
+    const clientId = (site.googleClientId || "").trim();
+    const payload = parseJwtPayload(credential);
+    if (!payload?.email) {
+      setLoginError("Token Google không có email.");
+      return;
+    }
+    if (clientId && payload.aud && payload.aud !== clientId) {
+      setLoginError("Client ID không khớp cấu hình site.");
+      return;
+    }
+    if (payload.email_verified === false) {
+      setLoginError("Email Google chưa được xác minh.");
+      return;
+    }
+    if (payload.exp && Date.now() >= payload.exp * 1000) {
+      setLoginError("Phiên Google đã hết hạn, thử lại.");
+      return;
+    }
+    if (!isEmailAllowed(payload.email, site)) {
+      setLoginError(
+        `Email ${payload.email} không có trong allowlist admin. Thêm vào data/site.json → adminEmails.`
+      );
+      return;
+    }
+
+    saveGoogleSession({
+      email: payload.email,
+      name: payload.name || payload.email,
+      picture: payload.picture || "",
+      exp: payload.exp || Math.floor(Date.now() / 1000) + 3600,
+    });
+    await enterApp("google");
+  }
+
+  function initGoogleButton(clientId) {
+    const host = $("#googleBtn");
+    if (!host || !clientId) return;
+
+    const render = () => {
+      if (!window.google?.accounts?.id) return false;
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleGoogleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
+      host.innerHTML = "";
+      window.google.accounts.id.renderButton(host, {
+        theme: "outline",
+        size: "large",
+        shape: "pill",
+        text: "signin_with",
+        width: 320,
+        logo_alignment: "left",
+      });
+      return true;
+    };
+
+    if (render()) return;
+    let tries = 0;
+    const t = setInterval(() => {
+      tries += 1;
+      if (render() || tries > 40) clearInterval(t);
+    }, 100);
+  }
+
+  async function prepareLoginScreen() {
+    const site = await fetchAuthConfig();
+    state.site = site;
+    const clientId = (site.googleClientId || "").trim();
+    const emails = normalizeEmails(site.adminEmails);
+    const setup = $("#googleSetupBlock");
+    const hint = $("#googleLoginHint");
+    const lead = $("#loginLead");
+
+    if (!clientId) {
+      if (setup) setup.hidden = false;
+      if (hint) {
+        hint.textContent =
+          "Chưa có googleClientId — cấu hình trong site.json hoặc dùng PIN local bên dưới.";
+      }
+      if (lead) lead.textContent = "Cấu hình Google Login hoặc dùng PIN local.";
+      return;
+    }
+
+    if (setup) setup.hidden = true;
+    if (lead) lead.textContent = "Đăng nhập bằng Google (email trong allowlist).";
+    if (hint) {
+      hint.textContent = emails.length
+        ? `Allowlist: ${emails.join(", ")}`
+        : "Chưa có adminEmails — sau khi login Google sẽ bị từ chối cho đến khi thêm email.";
+    }
+    initGoogleButton(clientId);
   }
 
   function toast(msg, type = "success") {
@@ -271,17 +464,30 @@
   function updateModeBadge() {
     const el = $("#modeBadge");
     if (!el) return;
+    let modeHtml = "";
     if (state.writeMode) {
-      el.innerHTML =
+      modeHtml =
         '<span class="ok">● Local server</span><br>Ghi file máy (admin-server.py).';
     } else if (state.githubMode) {
-      el.innerHTML = `<span class="ok">● GitHub online</span><br>Lưu vào <code>${escapeHtml(
+      modeHtml = `<span class="ok">● GitHub online</span><br>Lưu vào <code>${escapeHtml(
         state.github.owner
       )}/${escapeHtml(state.github.repo)}</code> — Pages cập nhật ~1–2 phút.`;
     } else {
-      el.innerHTML =
+      modeHtml =
         '<span class="warn">● Chưa bật lưu online</span><br>Vào <strong>Cài đặt</strong> → điền GitHub Token để thêm SP mãi mãi trên Pages.';
     }
+    let userHtml = "";
+    if (state.googleUser?.email) {
+      const pic = state.googleUser.picture
+        ? `<img src="${escapeHtml(state.googleUser.picture)}" alt="">`
+        : "";
+      userHtml = `<div class="login-user">${pic}<span>${escapeHtml(
+        state.googleUser.email
+      )}</span></div>`;
+    } else if (state.authMethod === "pin") {
+      userHtml = `<div class="login-user"><span>PIN local</span></div>`;
+    }
+    el.innerHTML = modeHtml + userHtml;
   }
 
   async function loadData() {
@@ -580,6 +786,10 @@
     if ($("#sShopee")) $("#sShopee").value = state.site.shopee || "";
     if ($("#sEmail")) $("#sEmail").value = state.site.email || "";
     if ($("#sPin")) $("#sPin").value = state.site.adminPin || "";
+    if ($("#sGoogleClientId"))
+      $("#sGoogleClientId").value = state.site.googleClientId || "";
+    if ($("#sAdminEmails"))
+      $("#sAdminEmails").value = normalizeEmails(state.site.adminEmails).join(", ");
   }
 
   function fillGithubForm() {
@@ -605,6 +815,8 @@
       shopee: $("#sShopee").value.trim(),
       email: $("#sEmail").value.trim(),
       adminPin: $("#sPin").value.trim() || state.site.adminPin,
+      googleClientId: ($("#sGoogleClientId")?.value || "").trim(),
+      adminEmails: parseEmailList($("#sAdminEmails")?.value || ""),
       github: {
         owner: ($("#ghOwner")?.value || "").trim(),
         repo: ($("#ghRepo")?.value || "").trim(),
@@ -678,18 +890,43 @@
     $("#adminApp").style.display = "grid";
   }
 
-  async function tryLogin(pin) {
-    state.pin = pin;
-    sessionStorage.setItem(STORAGE_PIN, pin);
+  async function enterApp(method) {
+    state.authMethod = method;
     showApp();
     await checkWriteMode();
     await loadData();
-    if (state.site?.adminPin && state.site.adminPin !== pin) {
-      toast("PIN khác site.json — vẫn vào được; local server có thể chặn lưu", "error");
+
+    // Local API vẫn dùng adminPin trong header (không hiện form PIN nếu login Google)
+    if (method === "google") {
+      const pin = state.site?.adminPin || "";
+      if (pin) {
+        state.pin = pin;
+        sessionStorage.setItem(STORAGE_PIN, pin);
+      }
+    }
+
+    if (method === "google") {
+      const who = state.googleUser?.email || "Google";
+      toast(
+        canWrite()
+          ? `Xin chào ${who} — sẵn sàng thêm sản phẩm`
+          : `Xin chào ${who}. Vào Cài đặt → GitHub Token để lưu online.`
+      );
     } else if (!canWrite()) {
-      toast("Đăng nhập OK. Vào Cài đặt → GitHub để bật thêm SP online (free mãi).");
+      toast("Vào Cài đặt → GitHub Token để bật thêm SP online (free mãi).");
     } else {
       toast("Đăng nhập thành công — sẵn sàng thêm sản phẩm");
+    }
+    updateModeBadge();
+  }
+
+  async function tryLoginPin(pin) {
+    state.pin = pin;
+    sessionStorage.setItem(STORAGE_PIN, pin);
+    clearGoogleSession();
+    await enterApp("pin");
+    if (state.site?.adminPin && state.site.adminPin !== pin) {
+      toast("PIN khác site.json — vẫn vào được; local server có thể chặn lưu", "error");
     }
   }
 
@@ -698,7 +935,7 @@
       e.preventDefault();
       const pin = $("#loginPin").value.trim();
       if (!pin) return toast("Nhập PIN", "error");
-      await tryLogin(pin);
+      await tryLoginPin(pin);
     });
 
     $$(".nav-item").forEach((btn) => {
@@ -840,6 +1077,7 @@
 
     $("#btnLogout")?.addEventListener("click", () => {
       sessionStorage.removeItem(STORAGE_PIN);
+      clearGoogleSession();
       location.reload();
     });
   }
@@ -847,8 +1085,24 @@
   async function boot() {
     bindEvents();
     await checkWriteMode();
-    const saved = sessionStorage.getItem(STORAGE_PIN);
-    if (saved) await tryLogin(saved);
+    await prepareLoginScreen();
+
+    // Ưu tiên session Google còn hạn
+    const g = loadGoogleSession();
+    if (g?.email) {
+      state.googleUser = g;
+      const site = state.site || (await fetchAuthConfig());
+      state.site = site;
+      if (isEmailAllowed(g.email, site)) {
+        await enterApp("google");
+        return;
+      }
+      clearGoogleSession();
+      setLoginError("Session Google không còn trong allowlist.");
+    }
+
+    // Không auto-login bằng PIN (tránh bypass Google trên máy public)
+    // PIN chỉ khi user chủ động submit form dự phòng.
   }
 
   document.addEventListener("DOMContentLoaded", boot);
