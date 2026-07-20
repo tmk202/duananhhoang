@@ -22,45 +22,30 @@
       <div class="logo" style="margin-bottom:1rem">
         <img class="logo-img" src="public/images/logo.png" alt="VEX Automotive" width="160" height="48">
       </div>
-      <h1>Đăng nhập Admin</h1>
-      <p id="loginLead">Đăng nhập bằng Google (email trong allowlist).</p>
+      <h1>Đăng nhập</h1>
+      <p id="loginLead" class="hint" style="margin:0 0 1rem">Dùng tài khoản Google được cấp quyền.</p>
 
       <div id="googleLoginBlock">
         <div id="googleBtn" class="google-btn-host"></div>
-        <p id="googleLoginHint" class="hint" style="margin-top:0.85rem;font-size:0.85rem;color:var(--muted)"></p>
+        <p id="googleLoginHint" class="hint" style="margin-top:0.75rem;font-size:0.85rem" hidden></p>
         <p id="googleLoginError" class="login-error" hidden></p>
       </div>
 
       <div id="googleSetupBlock" class="google-setup" hidden>
-        <p><strong>Chưa cấu hình Google Client ID</strong></p>
-        <ol>
-          <li>Google Cloud Console → APIs &amp; Services → <strong>Credentials</strong></li>
-          <li>Create credentials → <strong>OAuth client ID</strong> → Web application</li>
-          <li>Authorized JavaScript origins:
-            <code>http://127.0.0.1:8080</code>,
-            <code>https://tmk202.github.io</code>
-          </li>
-          <li>Copy Client ID → dán vào <code>data/site.json</code> → <code>googleClientId</code></li>
-          <li>Thêm email admin vào <code>adminEmails</code> (vd mail sếp + mail mày)</li>
-        </ol>
+        <p style="margin:0">Chưa cấu hình Google Client ID. Điền trong Cài đặt (sau khi vào bằng PIN) hoặc <code>data/site.json</code>.</p>
       </div>
 
       <details id="pinFallback" class="pin-fallback">
-        <summary>Đăng nhập PIN (local / dự phòng)</summary>
+        <summary>PIN dự phòng</summary>
         <form id="loginForm" style="margin-top:0.75rem">
           <div class="field" style="margin-bottom:0.75rem">
-            <label for="loginPin">Mã PIN</label>
-            <input id="loginPin" type="password" autocomplete="current-password" placeholder="PIN local">
+            <label for="loginPin">PIN</label>
+            <input id="loginPin" type="password" autocomplete="current-password" placeholder="••••••••">
           </div>
-          <button class="btn btn-secondary btn-block" type="submit">Vào bằng PIN</button>
+          <button class="btn btn-secondary btn-block" type="submit">Đăng nhập</button>
         </form>
       </details>
-
-      <p class="hint" style="margin-top:1rem;font-size:0.85rem;color:var(--muted)">
-        <strong>Online:</strong> Google login → Cài đặt → GitHub Token để lưu SP.<br>
-        <strong>Local:</strong> mở đúng <code>http://localhost:8080/admin.html</code> (không dùng 127.0.0.1)
-      </p>
-      <p id="originDebug" class="hint" style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)"></p>
+      <p id="originDebug" class="hint" style="margin-top:0.75rem;font-size:0.8rem" hidden></p>
     </div>
   </div>
 
@@ -75,26 +60,26 @@
         <button type="button" class="nav-item" data-panel="form" id="navForm">Thêm / Sửa</button>
         <button type="button" class="nav-item" data-panel="categories">Danh mục</button>
         <button type="button" class="nav-item" data-panel="settings">Cài đặt</button>
-        <a href="san-pham.html" target="_blank">Xem shop</a>
-        <a href="index.html" target="_blank">Landing</a>
+        <a href="san-pham.html" target="_blank" rel="noopener">Shop</a>
+        <a href="index.html" target="_blank" rel="noopener">Landing</a>
         <button type="button" class="nav-item" id="btnLogout">Đăng xuất</button>
       </nav>
-      <div class="side-meta" id="modeBadge">Đang kiểm tra chế độ…</div>
+      <div class="side-meta" id="modeBadge">…</div>
     </aside>
 
     <main class="admin-main">
       <div class="admin-top">
         <h1 id="pageTitle">Sản phẩm</h1>
         <div class="admin-toolbar" style="margin:0">
-          <button type="button" class="btn btn-secondary btn-sm" id="btnExport">Xuất products.json</button>
-          <button type="button" class="btn btn-primary btn-sm" id="btnNewProduct">+ Thêm sản phẩm</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnExport">Xuất JSON</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnNewProduct">+ Thêm</button>
         </div>
       </div>
 
       <!-- PRODUCTS LIST -->
       <section class="admin-panel active" id="panel-products">
         <div class="admin-card">
-          <h2>Danh sách sản phẩm (<span id="productCount"></span>)</h2>
+          <h2>Sản phẩm (<span id="productCount">0</span>)</h2>
           <div class="admin-table-wrap">
             <table class="admin-table">
               <thead>
@@ -118,7 +103,7 @@
       <!-- PRODUCT FORM -->
       <section class="admin-panel" id="panel-form">
         <div class="admin-card">
-          <h2>Thông tin sản phẩm</h2>
+          <h2>Sản phẩm</h2>
           <form id="productForm">
             <input type="hidden" id="fId">
             <div class="form-grid">
@@ -128,16 +113,15 @@
                   <div class="image-preview" id="imagePreview"><span>Chưa có ảnh</span></div>
                   <div>
                     <div class="dropzone" id="dropzone">
-                      <strong>Kéo thả ảnh vào đây</strong>
-                      <span>hoặc bấm để chọn (JPG/PNG/WebP, max 8MB)</span>
+                      <strong>Kéo thả hoặc bấm chọn ảnh</strong>
+                      <span>JPG / PNG / WebP · tối đa 8MB</span>
                     </div>
                     <input type="file" id="fImageFile" accept="image/*" hidden>
                     <div class="field" style="margin-top:0.65rem">
-                      <label for="fImagePath">Đường dẫn ảnh (tự điền sau upload)</label>
+                      <label for="fImagePath">Đường dẫn ảnh</label>
                       <input id="fImagePath" type="text" placeholder="public/images/uploads/...">
-                      <div class="hint">Có thể dán path ảnh có sẵn trong repo.</div>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm" id="btnAddGallery" style="margin-top:0.5rem">+ Thêm ảnh gallery</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btnAddGallery" style="margin-top:0.5rem">+ Gallery</button>
                     <div class="gallery-list" id="galleryList"></div>
                   </div>
                 </div>
@@ -148,11 +132,11 @@
                 <input id="fName" required placeholder="Lọc gió điều hòa VEX – VinFast VF3">
               </div>
               <div class="field">
-                <label for="fShortName">Tên ngắn (hiện card)</label>
+                <label for="fShortName">Tên ngắn</label>
                 <input id="fShortName" placeholder="VEX Filter VF3">
               </div>
               <div class="field">
-                <label for="fSlug">Slug URL</label>
+                <label for="fSlug">Slug</label>
                 <input id="fSlug" placeholder="loc-gio-vinfast-vf3">
               </div>
               <div class="field">
@@ -165,10 +149,10 @@
               </div>
               <div class="field">
                 <label for="fVehicle">Dòng xe</label>
-                <input id="fVehicle" placeholder="VF5 / VF8 / VF9">
+                <input id="fVehicle" placeholder="VF5">
               </div>
               <div class="field">
-                <label for="fPrice">Giá bán (₫) *</label>
+                <label for="fPrice">Giá (₫) *</label>
                 <input id="fPrice" type="number" min="0" step="1000" required placeholder="199000">
               </div>
               <div class="field">
@@ -177,7 +161,7 @@
               </div>
               <div class="field">
                 <label for="fBadge">Badge</label>
-                <input id="fBadge" placeholder="Bán chạy / Mới / Tiết kiệm">
+                <input id="fBadge" placeholder="Bán chạy">
               </div>
               <div class="field">
                 <label for="fInStock" style="display:flex;align-items:center;gap:0.5rem;margin-top:1.6rem">
@@ -186,28 +170,28 @@
                 </label>
               </div>
               <div class="field full">
-                <label for="fSummary">Tóm tắt ngắn</label>
-                <textarea id="fSummary" rows="2" placeholder="1–2 câu hiện trên card sản phẩm"></textarea>
+                <label for="fSummary">Tóm tắt</label>
+                <textarea id="fSummary" rows="2"></textarea>
               </div>
               <div class="field full">
-                <label for="fDescription">Mô tả chi tiết</label>
-                <textarea id="fDescription" rows="4" placeholder="Mô tả dài cho trang chi tiết"></textarea>
+                <label for="fDescription">Mô tả</label>
+                <textarea id="fDescription" rows="4"></textarea>
               </div>
               <div class="field full">
                 <label for="fFeatures">Tính năng (mỗi dòng 1 ý)</label>
-                <textarea id="fFeatures" rows="5"></textarea>
+                <textarea id="fFeatures" rows="4"></textarea>
               </div>
               <div class="field full">
-                <label for="fSpecs">Thông số (dạng: Tên: Giá trị — mỗi dòng)</label>
-                <textarea id="fSpecs" rows="5"></textarea>
+                <label for="fSpecs">Thông số (Tên: Giá trị — mỗi dòng)</label>
+                <textarea id="fSpecs" rows="4"></textarea>
               </div>
               <div class="field full">
-                <label for="fTags">Tags (cách nhau bằng dấu phẩy)</label>
-                <input id="fTags" placeholder="vf5, vinfast, pm25">
+                <label for="fTags">Tags (phẩy)</label>
+                <input id="fTags" placeholder="vf5, vinfast">
               </div>
             </div>
             <div class="admin-toolbar" style="margin-top:1.25rem">
-              <button type="submit" class="btn btn-primary">💾 Lưu sản phẩm</button>
+              <button type="submit" class="btn btn-primary">Lưu</button>
               <button type="button" class="btn btn-secondary" id="btnCancelForm">Hủy</button>
             </div>
           </form>
@@ -217,23 +201,23 @@
       <!-- CATEGORIES -->
       <section class="admin-panel" id="panel-categories">
         <div class="admin-card">
-          <h2>Thêm danh mục</h2>
+          <h2>Danh mục</h2>
           <form id="categoryForm" class="form-grid">
             <div class="field">
-              <label for="cName">Tên danh mục</label>
+              <label for="cName">Tên *</label>
               <input id="cName" required placeholder="Lọc gió VinFast">
             </div>
             <div class="field">
-              <label for="cId">ID (để trống = tự tạo)</label>
-              <input id="cId" placeholder="vinfast">
+              <label for="cId">ID</label>
+              <input id="cId" placeholder="tự tạo nếu trống">
             </div>
             <input type="hidden" id="cIcon" value="">
             <div class="field full">
               <label for="cDesc">Mô tả</label>
-              <input id="cDesc" placeholder="Mô tả ngắn">
+              <input id="cDesc" placeholder="Ngắn gọn">
             </div>
             <div class="full">
-              <button type="submit" class="btn btn-primary">Thêm danh mục</button>
+              <button type="submit" class="btn btn-primary">Thêm</button>
             </div>
           </form>
         </div>
@@ -242,137 +226,69 @@
 
       <!-- SETTINGS -->
       <section class="admin-panel" id="panel-settings">
-        <div class="admin-card" style="border:2px solid #0b7dff">
-          <h2>🌐 GitHub — host free mãi mãi + thêm sản phẩm online</h2>
-          <p style="margin:0 0 1rem;color:var(--muted);font-size:0.95rem">
-            GitHub Pages chỉ là file tĩnh, <strong>không tự ghi</strong>. Admin dùng <strong>GitHub API</strong> để commit
-            <code>products.json</code> + ảnh vào repo → Pages tự deploy. <strong>Miễn phí, không hết hạn</strong> (trong gói free GitHub).
-          </p>
+        <div class="admin-card">
+          <h2>GitHub (lưu online)</h2>
           <p id="ghStatus" style="margin:0 0 1rem;font-size:0.9rem"></p>
           <form id="githubForm" class="form-grid">
             <div class="field">
-              <label for="ghOwner">GitHub username / org *</label>
-              <input id="ghOwner" placeholder="ten-cua-ban" required>
+              <label for="ghOwner">Owner *</label>
+              <input id="ghOwner" placeholder="tmk202" required>
             </div>
             <div class="field">
-              <label for="ghRepo">Tên repo *</label>
-              <input id="ghRepo" placeholder="duan-anhoang" required>
+              <label for="ghRepo">Repo *</label>
+              <input id="ghRepo" placeholder="duananhhoang" required>
             </div>
             <div class="field">
               <label for="ghBranch">Branch</label>
               <input id="ghBranch" placeholder="main" value="main">
             </div>
             <div class="field">
-              <label for="ghToken">Personal Access Token *</label>
-              <input id="ghToken" type="password" autocomplete="off" placeholder="ghp_xxxxxxxxxxxx" required>
-              <div class="hint">
-                Tạo tại GitHub → Settings → Developer settings → Personal access tokens.<br>
-                Cần quyền <strong>Contents: Read and write</strong> (fine-grained) hoặc scope <code>repo</code> (classic).<br>
-                <strong>Token chỉ lưu trên trình duyệt này</strong> (localStorage), không ghi vào repo.
-              </div>
+              <label for="ghToken">Token *</label>
+              <input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…" required>
             </div>
             <div class="full admin-toolbar" style="margin:0">
-              <button type="submit" class="btn btn-primary">💾 Lưu & bật GitHub</button>
-              <button type="button" class="btn btn-secondary" id="btnTestGithub">Test kết nối</button>
-              <button type="button" class="btn btn-danger btn-sm" id="btnClearGithub">Xóa token máy này</button>
+              <button type="submit" class="btn btn-primary">Lưu token</button>
+              <button type="button" class="btn btn-secondary" id="btnTestGithub">Test</button>
+              <button type="button" class="btn btn-danger btn-sm" id="btnClearGithub">Xóa token</button>
             </div>
           </form>
-          <ol style="margin:1.25rem 0 0;padding-left:1.2rem;color:var(--muted);line-height:1.75;font-size:0.92rem">
-            <li>Push code lên GitHub, bật <strong>Settings → Pages</strong> (branch main / root)</li>
-            <li>Tạo token → dán vào form trên → <strong>Lưu & bật GitHub</strong></li>
-            <li>Vào <strong>Thêm sản phẩm</strong> → upload ảnh → Lưu</li>
-            <li>Đợi 1–2 phút, F5 trang shop — SP mới hiện</li>
-          </ol>
         </div>
 
         <div class="admin-card">
-          <h2>Google Login &amp; liên hệ</h2>
+          <h2>Site &amp; quyền admin</h2>
           <form id="siteForm" class="form-grid">
             <div class="field full">
-              <label for="sGoogleClientId">Google OAuth Client ID</label>
-              <input id="sGoogleClientId" placeholder="xxxxx.apps.googleusercontent.com" autocomplete="off">
-              <div class="hint">Web client từ Google Cloud Console. Origins: localhost + domain Pages.</div>
+              <label for="sGoogleClientId">Google Client ID</label>
+              <input id="sGoogleClientId" placeholder="….apps.googleusercontent.com" autocomplete="off">
             </div>
             <div class="field full">
-              <label for="sAdminEmails">Email được vào admin (cách nhau dấu phẩy)</label>
-              <input id="sAdminEmails" placeholder="ban@gmail.com, sep@gmail.com" autocomplete="off">
+              <label for="sAdminEmails">Admin emails (phẩy)</label>
+              <input id="sAdminEmails" placeholder="a@gmail.com, b@gmail.com" autocomplete="off">
             </div>
             <div class="field">
               <label for="sPhone">Hotline</label>
-              <input id="sPhone" placeholder="0900 000 000">
+              <input id="sPhone" placeholder="0983 047 842">
             </div>
             <div class="field">
-              <label for="sZalo">Link Zalo</label>
+              <label for="sZalo">Zalo</label>
               <input id="sZalo" placeholder="https://zalo.me/...">
             </div>
             <div class="field">
-              <label for="sShopee">Link Shopee</label>
+              <label for="sShopee">Shopee</label>
               <input id="sShopee" placeholder="https://shopee.vn/...">
             </div>
             <div class="field">
-              <label for="sEmail">Email liên hệ shop</label>
+              <label for="sEmail">Email shop</label>
               <input id="sEmail" type="email">
             </div>
             <div class="field full">
-              <label for="sPin">PIN local (admin-server.py)</label>
+              <label for="sPin">PIN local</label>
               <input id="sPin" type="text" autocomplete="off">
-              <div class="hint">Chỉ dùng khi chạy local server; không phải đăng nhập chính.</div>
             </div>
             <div class="full">
-              <button type="submit" class="btn btn-primary">Lưu cài đặt site</button>
+              <button type="submit" class="btn btn-primary">Lưu cài đặt</button>
             </div>
           </form>
-        </div>
-
-        <div class="admin-card">
-          <h2>So sánh chỗ host (free / “mãi”)</h2>
-          <div class="admin-table-wrap">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Nơi</th>
-                  <th>Chi phí</th>
-                  <th>Thêm SP online?</th>
-                  <th>Ghi chú</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>GitHub Pages + Token</strong></td>
-                  <td>Free</td>
-                  <td>✅ (cách này)</td>
-                  <td>Ổn định lâu dài, phù hợp shop catalog tĩnh</td>
-                </tr>
-                <tr>
-                  <td>Cloudflare Pages</td>
-                  <td>Free</td>
-                  <td>Cần Worker/D1 thêm</td>
-                  <td>Rất nhanh, free generous</td>
-                </tr>
-                <tr>
-                  <td>Netlify / Vercel</td>
-                  <td>Free tier</td>
-                  <td>Cần serverless + DB</td>
-                  <td>Có giới hạn build/bandwidth</td>
-                </tr>
-                <tr>
-                  <td>Supabase + static</td>
-                  <td>Free tier</td>
-                  <td>✅ DB thật</td>
-                  <td>Tốt nếu sau này cần user/order</td>
-                </tr>
-                <tr>
-                  <td>VPS (Contabo…)</td>
-                  <td>~$4–6/tháng</td>
-                  <td>✅ full</td>
-                  <td>Tự cài server, không “free”</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p style="margin:0.75rem 0 0;color:var(--muted);font-size:0.9rem">
-            Với VEX Filter hiện tại: <strong>GitHub Pages + Admin GitHub API</strong> là đủ, free, và “mãi” theo chính sách free của GitHub.
-          </p>
         </div>
       </section>
     </main>
@@ -381,7 +297,6 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="js/admin.js"></script>
   <script>
-    // product count badge
     const obs = new MutationObserver(() => {
       const rows = document.querySelectorAll("#productTableBody tr[data-id]");
       const el = document.getElementById("productCount");

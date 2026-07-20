@@ -213,29 +213,37 @@
     const originEl = $("#originDebug");
     if (originEl) {
       const origin = window.location.origin;
-      originEl.innerHTML = `Origin hiện tại: <code>${escapeHtml(origin)}</code> — phải khớp 100% JS origin trong Google Console.`;
       if (origin.includes("127.0.0.1")) {
-        originEl.innerHTML +=
-          `<br><strong style="color:#b91c1c">Đang dùng 127.0.0.1 → đổi sang http://localhost:8080/admin.html</strong>`;
+        originEl.hidden = false;
+        originEl.innerHTML =
+          '<strong style="color:#b91c1c">Dùng http://localhost:8080 (không 127.0.0.1)</strong>';
+      } else {
+        originEl.hidden = true;
+        originEl.textContent = "";
       }
     }
 
     if (!clientId) {
       if (setup) setup.hidden = false;
       if (hint) {
-        hint.textContent =
-          "Chưa có googleClientId — cấu hình trong site.json hoặc dùng PIN local bên dưới.";
+        hint.hidden = true;
+        hint.textContent = "";
       }
-      if (lead) lead.textContent = "Cấu hình Google Login hoặc dùng PIN local.";
+      if (lead) lead.textContent = "Chưa cấu hình Google — dùng PIN dự phòng.";
       return;
     }
 
     if (setup) setup.hidden = true;
-    if (lead) lead.textContent = "Đăng nhập bằng Google (email trong allowlist).";
+    if (lead) lead.textContent = "Đăng nhập bằng Google.";
     if (hint) {
-      hint.textContent = emails.length
-        ? `Allowlist: ${emails.join(", ")}`
-        : "Chưa có adminEmails — sau khi login Google sẽ bị từ chối cho đến khi thêm email.";
+      // Không hiện allowlist (production gọn); chỉ báo khi list trống
+      if (!emails.length) {
+        hint.hidden = false;
+        hint.textContent = "Chưa có admin emails trong cấu hình.";
+      } else {
+        hint.hidden = true;
+        hint.textContent = "";
+      }
     }
     initGoogleButton(clientId);
   }
@@ -475,15 +483,13 @@
     if (!el) return;
     let modeHtml = "";
     if (state.writeMode) {
-      modeHtml =
-        '<span class="ok">● Local server</span><br>Ghi file máy (admin-server.py).';
+      modeHtml = '<span class="ok">● Local</span>';
     } else if (state.githubMode) {
-      modeHtml = `<span class="ok">● GitHub online</span><br>Lưu vào <code>${escapeHtml(
+      modeHtml = `<span class="ok">● GitHub</span><br><code>${escapeHtml(
         state.github.owner
-      )}/${escapeHtml(state.github.repo)}</code> — Pages cập nhật ~1–2 phút.`;
+      )}/${escapeHtml(state.github.repo)}</code>`;
     } else {
-      modeHtml =
-        '<span class="warn">● Chưa bật lưu online</span><br>Vào <strong>Cài đặt</strong> → điền GitHub Token để thêm SP mãi mãi trên Pages.';
+      modeHtml = '<span class="warn">● Chưa lưu online</span><br>Cài đặt → Token';
     }
     let userHtml = "";
     if (state.googleUser?.email) {
@@ -494,7 +500,7 @@
         state.googleUser.email
       )}</span></div>`;
     } else if (state.authMethod === "pin") {
-      userHtml = `<div class="login-user"><span>PIN local</span></div>`;
+      userHtml = `<div class="login-user"><span>PIN</span></div>`;
     }
     el.innerHTML = modeHtml + userHtml;
   }
@@ -576,7 +582,7 @@
       products: "Sản phẩm",
       form: state.editingId ? "Sửa sản phẩm" : "Thêm sản phẩm",
       categories: "Danh mục",
-      settings: "Cài đặt & GitHub",
+      settings: "Cài đặt",
     };
     $("#pageTitle").textContent = titles[name] || "Admin";
   }
@@ -721,7 +727,7 @@
     if (!product.name) return toast("Nhập tên sản phẩm", "error");
     if (!product.price) return toast("Nhập giá bán", "error");
     if (product.image.startsWith("blob:") || product.image.startsWith("(")) {
-      return toast("Chưa upload ảnh thành công. Bật GitHub trong Cài đặt hoặc dùng admin-server.", "error");
+      return toast("Chưa có ảnh — upload hoặc dán path.", "error");
     }
 
     const idx = state.products.findIndex((p) => p.id === product.id);
@@ -735,11 +741,11 @@
         `feat(admin): ${idx >= 0 ? "update" : "add"} product ${product.sku}`
       );
       if (res.mode === "github") {
-        toast("Đã lưu lên GitHub! Pages sẽ hiện SP mới sau ~1–2 phút.");
+        toast("Đã lưu lên GitHub (~1–2 phút lên shop)");
       } else if (res.mode === "local") {
-        toast(idx >= 0 ? "Đã cập nhật (local)" : "Đã thêm sản phẩm (local)");
+        toast(idx >= 0 ? "Đã cập nhật" : "Đã thêm");
       } else {
-        toast("Đã tải products.json — bật GitHub trong Cài đặt để lưu online");
+        toast("Đã tải JSON — bật GitHub để lưu online", "error");
       }
       renderProductTable();
       showPanel("products");
@@ -809,9 +815,11 @@
     if ($("#ghToken")) $("#ghToken").value = g.token || "";
     const st = $("#ghStatus");
     if (st) {
-      if (state.writeMode) st.textContent = "Đang dùng local server (ưu tiên hơn GitHub).";
-      else if (ghReady()) st.innerHTML = '<span style="color:#065f46;font-weight:700">● Đã cấu hình GitHub — thêm SP online được</span>';
-      else st.textContent = "Chưa đủ token/owner/repo — chưa lưu online được.";
+      if (state.writeMode) st.textContent = "Local server (ưu tiên ghi máy).";
+      else if (ghReady())
+        st.innerHTML =
+          '<span style="color:#065f46;font-weight:700">● GitHub sẵn sàng</span>';
+      else st.textContent = "Chưa có token / owner / repo.";
     }
   }
 
@@ -859,7 +867,7 @@
     saveGithubCfg(cfg);
     try {
       const name = await testGithub();
-      toast("Kết nối OK: " + name + " — giờ thêm sản phẩm được online!");
+      toast("Kết nối OK: " + name);
       // also save owner/repo (no token) into site if possible
       if (state.site) {
         state.site.github = { owner: cfg.owner, repo: cfg.repo, branch: cfg.branch };
@@ -915,16 +923,11 @@
     }
 
     if (method === "google") {
-      const who = state.googleUser?.email || "Google";
-      toast(
-        canWrite()
-          ? `Xin chào ${who} — sẵn sàng thêm sản phẩm`
-          : `Xin chào ${who}. Vào Cài đặt → GitHub Token để lưu online.`
-      );
+      toast(canWrite() ? "Đăng nhập OK" : "Đăng nhập OK — cần GitHub token để lưu online");
     } else if (!canWrite()) {
-      toast("Vào Cài đặt → GitHub Token để bật thêm SP online (free mãi).");
+      toast("Cần GitHub token trong Cài đặt để lưu online");
     } else {
-      toast("Đăng nhập thành công — sẵn sàng thêm sản phẩm");
+      toast("Đăng nhập OK");
     }
     updateModeBadge();
   }
@@ -935,7 +938,7 @@
     clearGoogleSession();
     await enterApp("pin");
     if (state.site?.adminPin && state.site.adminPin !== pin) {
-      toast("PIN khác site.json — vẫn vào được; local server có thể chặn lưu", "error");
+      toast("PIN khác cấu hình — local có thể không lưu được", "error");
     }
   }
 
@@ -1013,7 +1016,7 @@
           state.imagePath = err.previewUrl;
           $("#fImagePath").value = "(cần bật GitHub hoặc admin-server)";
           renderImagePreview(err.previewUrl);
-          toast("Chưa bật lưu online. Vào Cài đặt → GitHub Token.", "error");
+          toast("Chưa bật GitHub token.", "error");
           showPanel("settings");
         } else {
           toast(err.message || "Upload lỗi", "error");
@@ -1045,7 +1048,7 @@
           renderGalleryChips();
           toast("Đã thêm ảnh gallery");
         } catch (err) {
-          toast(err.message === "NO_WRITE" ? "Cần bật GitHub trong Cài đặt" : err.message, "error");
+          toast(err.message === "NO_WRITE" ? "Cần GitHub token" : err.message, "error");
         }
       };
       inp.click();
