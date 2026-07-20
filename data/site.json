@@ -19,7 +19,9 @@
   ],
   "adminPin": "vex2026",
   "googleClientId": "",
-  "adminEmails": [],
+  "adminEmails": [
+    "giadung8686@gmail.com"
+  ],
   "github": {
     "owner": "tmk202",
     "repo": "duananhhoang",
