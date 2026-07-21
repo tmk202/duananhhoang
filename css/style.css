@@ -1177,6 +1177,7 @@ section { padding: 4rem 0; }
   .hero { padding-top: 1.5rem; }
   .product-actions { grid-template-columns: 1fr; }
   .topbar { display: none; }
+  .hide-mobile { display: none !important; }
 }
 
 /* ========== Animations ========== */
@@ -1512,7 +1513,7 @@ section { padding: 4rem 0; }
 .float-btn--msg .float-btn__label { color: #0084ff; }
 .float-btn--phone .float-btn__label { color: #16a34a; }
 .float-btn--tiktok .float-btn__label { color: #111; }
-.float-btn--shopee { display: none !important; }
+.float-btn--shopee .float-btn__label { color: #ee4d2d; }
 
 /* Mobile: chỉ icon tròn, cùng size */
 @media (max-width: 560px) {
