@@ -1511,6 +1511,7 @@ section { padding: 4rem 0; }
 .float-btn--zalo .float-btn__label { color: #0068ff; }
 .float-btn--msg .float-btn__label { color: #0084ff; }
 .float-btn--phone .float-btn__label { color: #16a34a; }
+.float-btn--tiktok .float-btn__label { color: #111; }
 .float-btn--shopee { display: none !important; }
 
 /* Mobile: chỉ icon tròn, cùng size */

@@ -798,6 +798,7 @@
     if (!state.site) return;
     if ($("#sPhone")) $("#sPhone").value = state.site.phone || "";
     if ($("#sZalo")) $("#sZalo").value = state.site.zalo || "";
+    if ($("#sTiktok")) $("#sTiktok").value = state.site.tiktok || "";
     if ($("#sShopee")) $("#sShopee").value = state.site.shopee || "";
     if ($("#sEmail")) $("#sEmail").value = state.site.email || "";
     if ($("#sPin")) $("#sPin").value = state.site.adminPin || "";
@@ -829,6 +830,7 @@
       ...state.site,
       phone: $("#sPhone").value.trim(),
       zalo: $("#sZalo").value.trim(),
+      tiktok: ($("#sTiktok")?.value || "").trim(),
       shopee: $("#sShopee").value.trim(),
       email: $("#sEmail").value.trim(),
       adminPin: $("#sPin").value.trim() || state.site.adminPin,

@@ -363,6 +363,9 @@ function initSiteLinks(site) {
   qsa("a[data-shopee]").forEach((a) => {
     a.href = site.shopee;
   });
+  qsa("a[data-tiktok]").forEach((a) => {
+    a.href = site.tiktok;
+  });
 }
 
 /** Update float contact links from site.json (HTML float already in page) */
@@ -374,6 +377,7 @@ function syncFloatContactLinks(site = {}) {
   const zalo = site.zalo || "https://zalo.me/0983047842";
   const messenger = site.messenger || "https://m.me/";
   const shopee = site.shopee || "https://shopee.vn/";
+  const tiktok = site.tiktok || "https://vt.tiktok.com/";
   root.querySelectorAll("a[data-zalo]").forEach((a) => {
     a.href = zalo;
   });
@@ -382,6 +386,9 @@ function syncFloatContactLinks(site = {}) {
   });
   root.querySelectorAll("a[data-shopee]").forEach((a) => {
     a.href = shopee;
+  });
+  root.querySelectorAll("a[data-tiktok]").forEach((a) => {
+    a.href = tiktok;
   });
   root.querySelectorAll("a[data-phone-link], a.float-btn--phone").forEach((a) => {
     a.href = "tel:" + phone;
